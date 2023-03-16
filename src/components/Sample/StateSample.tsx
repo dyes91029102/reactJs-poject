@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
-const StateSample = () => {
+/** 範例1 */
+const StateSample1 = () => {
     // 宣告一個新的 state 變數，我們叫他「count」
     const [count, setCount] = useState(0);
     // 宣告第二個 state變數，fruit 
@@ -15,8 +16,8 @@ const StateSample = () => {
     );
 }
 
-
-const StateSample1 = () => {
+/** 範例2 */
+const StateSample2 = () => {
 
     const [count, setCount] = useState(4);
     const [count2, setCount2] = useState(4);
@@ -40,4 +41,28 @@ const StateSample1 = () => {
     );
 }
 
-export default StateSample1;
+/** 範例3 物件 */
+const StateSample3 = () => {
+    const [state, setState] = useState({ count: 4, name: 'brook' });
+
+    const A = () => {
+        setState(prevState => {
+            return { ...prevState, count: prevState.count + 1 }
+        });
+        console.log(state); // {count: 5, name: 'brook'}
+    }
+
+    return (
+        <div>
+            <button onClick={() => A()}>A</button>
+        </div>
+    );
+}
+
+const StateSample: FC<any> = () => {
+    return(
+        <StateSample1/>
+    );
+}
+
+export default StateSample;

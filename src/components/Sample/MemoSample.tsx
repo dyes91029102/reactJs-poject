@@ -2,7 +2,30 @@ import React, { FC, useMemo, useState } from 'react';
 
 interface SampleProps { }
 
-const Sample: FC<SampleProps> = () => {
+const MemoSample1: FC<any> = () => {
+  const [count, setCount] = useState(1);
+  const [count2, setCount2] = useState(1);
+  const starts = useMemo(() => {
+    console.log('觸發星星')
+    let stars = "";
+    for (let i = 1; i <= count2; i += 1) {
+      stars += "*";
+    }
+    return stars;
+  }, [count]); //dep array 中的count，假設是元件內某個state 或props
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>點擊</button>
+      <div>count:{count}</div>
+      <button onClick={() => setCount2(count2 + 1)}>點擊2</button>
+      <div>count:{count2}</div>
+      <h1>{starts}</h1>
+    </div>
+  )
+}
+
+const MemoSample2: FC<SampleProps> = () => {
 
   const [radomDepState, setRadomDepState] = useState(1);
   const [count, setCount] = useState(1);
@@ -36,4 +59,10 @@ const Sample: FC<SampleProps> = () => {
     </div>)
 }
 
-export default Sample;
+const MemoSample:FC<SampleProps> = ()=>{
+  return(
+    <MemoSample1/>
+  );
+}
+
+export default MemoSample;
