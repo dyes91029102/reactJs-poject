@@ -64,5 +64,5 @@ const EffectSample2: FC<any> = () => {
     );
 }
 
-const EffectSample: FC<any> = () => (<EffectSample2 />);
+const EffectSample: FC<any> = () => (<EffectSample1 />);
 export default EffectSample;
