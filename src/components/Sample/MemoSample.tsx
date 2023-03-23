@@ -8,7 +8,7 @@ const MemoSample1: FC<any> = () => {
   const starts = useMemo(() => {
     console.log('觸發星星')
     let stars = "";
-    for (let i = 1; i <= count2; i += 1) {
+    for (let i = 1; i <= count; i += 1) {
       stars += "*";
     }
     return stars;
@@ -61,7 +61,7 @@ const MemoSample2: FC<SampleProps> = () => {
 
 const MemoSample:FC<SampleProps> = ()=>{
   return(
-    <MemoSample1/>
+    <MemoSample2/>
   );
 }
 
