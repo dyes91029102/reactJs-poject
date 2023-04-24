@@ -18,8 +18,15 @@
       "withStory": false,
       "withLazy": false
     },
-    "router-test": {
-      "path": "src/components/router-component",
+    "router-test-child": {
+      "path": "src/components/RouterSample/TestComponent",
+      "withStyle": false,
+      "withTest": false,
+      "withStory": false,
+      "withLazy": false
+    },
+    "router-test-parent": {
+      "path": "src/components/RouterSample",
       "withStyle": false,
       "withTest": false,
       "withStory": false,

@@ -17,7 +17,7 @@ const RefSample2: FC<any> = () => {
     useEffect(() => {
         renderCount.current += 1;
     })
-    return <p>renderCount.current</p>
+    return <p>{renderCount.current}</p>
 }
 
 /** 範例3 */
@@ -56,5 +56,5 @@ const RefSample4: FC<any> = () => {
 }
 
 
-const RefSample: FC<any> = () => (<RefSample3 />);
+const RefSample: FC<any> = () => (<RefSample2 />);
 export default RefSample;
