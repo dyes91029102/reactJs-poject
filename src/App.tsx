@@ -9,6 +9,7 @@ import RefSample from './components/Sample/RefSmple';
 import StateSample from './components/Sample/StateSample';
 import Layout from './pages/Layout/Layout';
 import MyComponent from './components/MyComponent/MyComponent';
+import RequestSample from './components/RequestSample/RequestSample';
 
 
 
@@ -21,7 +22,7 @@ import MyComponent from './components/MyComponent/MyComponent';
 /** router 範例 */
 const App: FC<any> = () => {
   return (
-    <Layout />
+    <RequestSample />
   );
 }
 

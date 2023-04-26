@@ -1,4 +1,4 @@
-import React, { FC, Suspense } from 'react';
+import React, { FC, Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import TestIndex from '../../components/RouterSample/TestComponent/TestIndex';
@@ -21,8 +21,8 @@ const LayoutSample1: FC<LayoutProps> = () => {
       <Header></Header>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='page1' element={<TestOne />}/>
-        <Route path='page2' element={<TestTwo />}/>
+        <Route path='page1' element={<TestOne />} />
+        <Route path='page2' element={<TestTwo />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
@@ -41,15 +41,15 @@ const LayoutSample2: FC<LayoutProps> = () => {
         {
           path: 'one',
           element: <TestOne />,
-          errorElement: <NotFound/>
+          errorElement: <NotFound />
         }, {
           path: 'two/:id',
           element: <TestTwo />,
-          errorElement: <NotFound/>
+          errorElement: <NotFound />
         }, {
           path: 'three/:id',
           element: <TestThree />,
-          errorElement: <NotFound/>
+          errorElement: <NotFound />
         }
       ]
     }
@@ -74,21 +74,24 @@ const LayoutSample2: FC<LayoutProps> = () => {
 /** 範例3  lazy Routes */
 const LayoutSample3: FC<LayoutProps> = () => {
 
-  const LazyThreeComponent = React.lazy(()=>import('../../components/RouterSample/TestComponent/TestThree'));
+  const LazyThreeComponent = lazy(() => {
+    return import('../../components/RouterSample/TestComponent/TestThree');
+  });
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<TestIndex />}>
-          <Route index path='one' element={<TestOne />}/>
-          <Route path='/two/:id' element={<TestTwo />}/>
-          {/* <Route path='/three/:id' element={<TestThree/>}/> */}
-      
-          <Route path='/three/:id' element={
-            <Suspense fallback={<div>loading</div>}>
-              <LazyThreeComponent/>
-            </Suspense>
-          }/>
+
         </Route>
+        <Route index path='one' element={<TestOne />} />
+        <Route path='/two/:id' element={<TestTwo />} />
+        {/* <Route path='/three/:id' element={<TestThree/>}/> */}
+
+        <Route path='/three/:id' element={
+          <Suspense fallback={<div>loading</div>}>
+            <LazyThreeComponent />
+          </Suspense>
+        } />
       </Routes>
     </BrowserRouter>
   )
@@ -97,7 +100,7 @@ const LayoutSample3: FC<LayoutProps> = () => {
 const Layout: FC<LayoutProps> = () => {
 
   return (
-    <LayoutSample3/>
+    <LayoutSample3 />
   )
 };
 
