@@ -1,4 +1,4 @@
-import React, { FC, Suspense, lazy } from 'react';
+import React, { FC } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import TestIndex from '../../components/RouterSample/TestComponent/TestIndex';
@@ -71,31 +71,46 @@ const LayoutSample2: FC<LayoutProps> = () => {
   )
 }
 
-/** 範例3  lazy Routes */
 const LayoutSample3: FC<LayoutProps> = () => {
+  const LazyThreeComponent = React.lazy(() => import('../../components/RouterSample/TestComponent/TestThree'));
 
-  const LazyThreeComponent = lazy(() => {
-    return import('../../components/RouterSample/TestComponent/TestThree');
-  });
+  // 創建router
+  const routers = createBrowserRouter([
+    {
+      path: '/',
+      element: <TestIndex />,
+      children: [
+        {
+          path: 'one',
+          element: <TestOne />,
+          errorElement: <NotFound />
+        }, {
+          path: 'two/:id',
+          element: <TestTwo />,
+          errorElement: <NotFound />
+        }, {
+          path: 'three/:id',
+          element: <TestThree />,
+          errorElement: <NotFound />
+        }
+      ]
+    }
+  ]);
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<TestIndex />}>
-
+          <Route path='/one' element={<TestOne/>} />
+          <Route path='/two/:id' element={<TestTwo />} />
+          <Route path='/three/:id' element={
+            <React.Suspense fallback={<div>Loading</div>}>
+              <LazyThreeComponent />
+            </React.Suspense>} />
         </Route>
-        <Route index path='one' element={<TestOne />} />
-        <Route path='/two/:id' element={<TestTwo />} />
-        {/* <Route path='/three/:id' element={<TestThree/>}/> */}
-
-        <Route path='/three/:id' element={
-          <Suspense fallback={<div>loading</div>}>
-            <LazyThreeComponent />
-          </Suspense>
-        } />
       </Routes>
     </BrowserRouter>
   )
-}
+};
 
 const Layout: FC<LayoutProps> = () => {
 
