@@ -71,6 +71,7 @@ const LayoutSample2: FC<LayoutProps> = () => {
   )
 }
 
+/** 目前要放到app ts才可正常顯示 */
 const LayoutSample3: FC<LayoutProps> = () => {
   const LazyThreeComponent = React.lazy(() => import('../../components/RouterSample/TestComponent/TestThree'));
 
