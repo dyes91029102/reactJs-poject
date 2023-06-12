@@ -205,11 +205,13 @@ const RequestSample2: FC<RequestSampleProps> = () => {
 
   return (
     <div>
-      <div>
-        <button onClick={() => getRandomUser()}>axios取得隨機使用者資料</button>
-        <button onClick={() => getRandomUser2()}>axios取得指定female資料使用者資料</button>
-        <button onClick={() => getRandomUser3()}>axios取得指定male資料使用者資料</button>
-        <button onClick={() => getRandomUser4()}>axios create instance取得指定male資料使用者資料</button>
+      <div className="container mx-1 px-5">
+        <div className="bg-green-200">
+          <button className="bg-slate-300" onClick={() => getRandomUser()}>axios取得隨機使用者資料</button>
+          <button type="button" onClick={() => getRandomUser2()}>axios取得指定female資料使用者資料</button>
+          <button type="button" onClick={() => getRandomUser3()}>axios取得指定male資料使用者資料</button>
+          <button onClick={() => getRandomUser4()}>axios create instance取得指定male資料使用者資料</button>
+        </div>
         <div>
           {
             randomuser.map((p, index) => {

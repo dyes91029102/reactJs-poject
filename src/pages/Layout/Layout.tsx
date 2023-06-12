@@ -8,6 +8,8 @@ import Home from '../../components/RouterSample/Home/Home';
 import Header from '../../components/RouterSample/Header/Header';
 import NotFound from '../../components/RouterSample/NotFound/NotFound';
 import TestThree from '../../components/RouterSample/TestComponent/TestThree';
+import RequestSample from '../../components/RequestSample/RequestSample';
+import ReduxSample from '../../components/ReduxSample/ReduxSample';
 
 
 
@@ -116,7 +118,7 @@ const LayoutSample3: FC<LayoutProps> = () => {
 const Layout: FC<LayoutProps> = () => {
 
   return (
-    <LayoutSample3 />
+    <ReduxSample />
   )
 };
 
