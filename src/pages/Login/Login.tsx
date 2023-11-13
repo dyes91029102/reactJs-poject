@@ -2,17 +2,18 @@ import React, { FC, useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // import '../../scss/pages/login.scss';
 import lgoinLogo from './../../assets/images/login_logo.svg';
-import AuthContext from '../../store/auth-context';
-import { login } from '../../services/loginService';
-import { setAuthToken } from '../../utils/token';
+import { getMe, login } from '../../services/loginService';
+import { setAuthToken, setRefreshToken, setUserInfo } from '../../utils/token';
+import { AuthContext, TodoContextType } from '../../context/authProvider';
 interface LoginProps { }
 
 const Login: FC<LoginProps> = () => {
-  
+
   const navigate = useNavigate()
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('brookchen@chase.com.tw');
+  const [password, setPassword] = useState('1234');
   const [errorMessage, setErrorMessage] = useState();
+  const { setUser } = useContext(AuthContext) as TodoContextType;
   const handleUsername = (e: any) => {
     setUsername(e.target.value);
   };
@@ -22,32 +23,35 @@ const Login: FC<LoginProps> = () => {
   };
 
   // 阻止送出表單
-  const handleSubmit = (e: any) => {
-    console.log(typeof e)
+  const handleLogin = (e: any) => {
+
     e.preventDefault();
-    login(username, password)
-      .then(data => {
-        if (data.ok === 0) {
-          return setErrorMessage(data.message);
+    login({
+      account: username,
+      password: password
+    })
+      .then(x => {
+        if (x.success) {
+          // 成功的話就把 token 存到 localStorage
+          setAuthToken(x.data.access_token);
+          setRefreshToken(x.data.refresh_token)
+          // 取得個人資料
+          setUserInfo(x.data);
+          setUser(x.data);
+     
+          navigate('/home');
+        } else {
+
+          return setErrorMessage(x.message);
         }
-        // 成功的話就把 token 存到 localStorage
-        setAuthToken(data.token);
-        navigate('/home');
+
       })
   };
-
-  console.log('login page')
-  let { setIsAuthenticated }: any = useContext(AuthContext);
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    // 導入主要頁面
-    navigate('/');
-  }
 
   return (
     <div>
       <div className='loginbg'>
-        <form className='form-signin' onSubmit={handleSubmit}>
+        <form className='form-signin' onSubmit={handleLogin}>
           <div className='text-center mb-4'>
             <img alt='login logo' className='mb-4'
               src={lgoinLogo}
@@ -56,7 +60,8 @@ const Login: FC<LoginProps> = () => {
           </div>
 
           <div className='form-label-group'>
-            <input type='email' id='inputEmail'
+            <input type='text' id='inputEmail'
+              className='form-control'
               placeholder='Email'
               value={username}
               onChange={handleUsername} />

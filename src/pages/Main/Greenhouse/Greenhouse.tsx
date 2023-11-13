@@ -1,7 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { useGetQuery } from '../../../hooks/httpClient';
-import AuthContext from '../../../store/auth-context';
 
 
 interface GreenhouseProps { }
@@ -17,7 +16,6 @@ const Greenhouse: FC<GreenhouseProps> = () => {
   const locationObj = useLocation();
   // 路由相關GET參數
   const [searchParams, setSearchParams] = useSearchParams();
-  const { setIsAuthenticated }: any = useContext(AuthContext)
   console.log(data, isError, isLoading)
 
   if (isLoading) {
@@ -30,7 +28,6 @@ const Greenhouse: FC<GreenhouseProps> = () => {
 
 
   const cancelRefreshToken = () => {
-    setIsAuthenticated(false);
   }
   return (
     <div>

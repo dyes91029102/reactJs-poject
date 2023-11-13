@@ -6,15 +6,12 @@ import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
 import NotFound from './components/NotFound/NotFound';
 import { Provider } from 'react-redux';
-import AuthContext from './store/auth-context';
 
 
 /** router 範例 */
 const App: FC<any> = () => {
   // const LazyThreeComponent = React.lazy(() => import('./components/TestComponent/TestThree'));
 
-  let { isAuthenticated }: any = useContext(AuthContext);
-  console.log('isAuthenticated', isAuthenticated);
 
   const routers = createBrowserRouter([
     {
@@ -23,8 +20,7 @@ const App: FC<any> = () => {
     },
     {
       path: '/',
-      element:
-        isAuthenticated ? <Main /> : <Navigate to='/login' />
+      element: <Main /> 
     },
     {
       path: '*',
@@ -34,9 +30,8 @@ const App: FC<any> = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/' element={
-          isAuthenticated ? <Main /> : <Navigate to='/login' />}>
+        <Route path='/' element={<Login />} />
+        <Route path='/main' element={<Main />}>
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
