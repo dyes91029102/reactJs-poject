@@ -17,6 +17,13 @@
       "withTest": false,
       "withStory": false,
       "withLazy": false
+    },  
+    "layout": {
+      "path": "src/layouts",
+      "withStyle": false,
+      "withTest": false,
+      "withStory": false,
+      "withLazy": false
     },
     "router-test-child": {
       "path": "src/components/RouterSample/TestComponent",

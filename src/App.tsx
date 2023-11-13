@@ -1,35 +1,49 @@
-import React, { FC, useMemo, useState } from 'react';
-import './style/styles.scss';
-import './App.scss';
-import CallBackSample from './components/Sample/CallbackSample';
-import EffectSample from './components/Sample/EffectSample';
-import MemoSample from './components/Sample/MemoSample';
-import ReactMemoSample from './components/Sample/ReactMemoSample';
-import RefSample from './components/Sample/RefSmple';
-import StateSample from './components/Sample/StateSample';
-import Layout from './pages/Layout/Layout';
-import MyComponent from './components/MyComponent/MyComponent';
-import RequestSample from './components/RequestSample/RequestSample';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import TestIndex from './components/RouterSample/TestComponent/TestIndex';
-import TestOne from './components/RouterSample/TestComponent/TestOne';
-import TestTwo from './components/RouterSample/TestComponent/TestTwo';
+import React, { FC, useContext, useMemo, useState } from 'react';
+import './scss/all.scss';
+import { BrowserRouter, Routes, Route, RouteObject, createBrowserRouter, RouterProvider, Navigate, useNavigate } from 'react-router-dom';
 
+import Login from './pages/Login/Login';
+import Main from './pages/Main/Main';
+import NotFound from './components/NotFound/NotFound';
+import { Provider } from 'react-redux';
+import AuthContext from './store/auth-context';
 
-
-// const App: FC<any> = () => {
-//   return (
-//     <MyComponent />
-//   );
-// }
 
 /** router 範例 */
 const App: FC<any> = () => {
-  const LazyThreeComponent = React.lazy(() => import('./components/RouterSample/TestComponent/TestThree'));
+  // const LazyThreeComponent = React.lazy(() => import('./components/TestComponent/TestThree'));
 
+  let { isAuthenticated }: any = useContext(AuthContext);
+  console.log('isAuthenticated', isAuthenticated);
+
+  const routers = createBrowserRouter([
+    {
+      path: '/login',
+      element: <Login />
+    },
+    {
+      path: '/',
+      element:
+        isAuthenticated ? <Main /> : <Navigate to='/login' />
+    },
+    {
+      path: '*',
+      element: <NotFound />
+    }
+  ])
   return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={
+          isAuthenticated ? <Main /> : <Navigate to='/login' />}>
+        </Route>
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
     // <BrowserRouter>
     //   <Routes>
+    //     <Route path='/login'/>
     //     <Route path='/' element={<TestIndex />}>
     //       <Route path='/one' element={<TestOne/>} />
     //       <Route path='/two/:id' element={<TestTwo />} />
@@ -40,8 +54,7 @@ const App: FC<any> = () => {
     //     </Route>
     //   </Routes>
     // </BrowserRouter>
-    <Layout/>
+    // <RouterProvider router={routers} />
   );
 }
-
 export default App;
