@@ -1,0 +1,109 @@
+.card-block {
+    position: relative;
+    background-color: #fff;
+    color: #1C314E;
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    padding: 44px 20px;
+    height: 228px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 6px solid;
+    margin: 5px;
+
+    .card-icon-box {
+        min-height: 110px;
+        display: flex;
+        align-items: center;
+
+        .card-icon {
+            width: 80px;
+        }
+    }
+
+
+    .card-text {
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .ch-name {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .en-name {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+        }
+    }
+
+    &:hover {
+        .card-text {
+            z-index: 2;
+            color: #fff;
+        }
+
+        .card-icon-box {
+
+            .card-icon {
+                animation-name: zoomFrame;
+                animation-duration: 0.5s;
+                animation-delay: 0s;
+                width: 100px;
+            }
+        }
+
+        .card-mask {
+            /*動畫名稱，需與 keyframe 名稱對應*/
+            animation-name: moveTopFrame;
+
+            /*動畫持續時間，單位為秒*/
+            animation-duration: 0.5s;
+
+            /*動畫延遲開始時間*/
+            animation-delay: 0s;
+            height: 40%;
+        }
+    }
+
+
+    .card-mask {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    // 由下往上
+    @keyframes moveTopFrame {
+        from {
+            height: 0;
+        }
+
+        to {
+            height: 40%;
+        }
+    }
+
+    // 由小變大
+    @keyframes zoomFrame {
+        from {
+            width: 80px;
+        }
+
+        to {
+            width: 100px;
+        }
+    }
+}

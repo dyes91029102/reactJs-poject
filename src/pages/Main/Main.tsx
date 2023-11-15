@@ -1,11 +1,11 @@
 import React, { FC, useContext } from 'react';
-import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider, RouteObject, useRoutes, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
+import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider, RouteObject, useRoutes, useNavigate, Navigate } from 'react-router-dom';
 import Home from '../Home/Home';
 import NotFound from '../../components/NotFound/NotFound';
 import Layout from '../Layout/Layout';
 import Greenhouse from './Greenhouse/Greenhouse';
 import Carbon from './Carbon/Carbon';
+import Energy from './Energy/Energy';
 
 interface MainProps { }
 
@@ -18,36 +18,36 @@ const Main: FC<MainProps> = () => {
       element: <Layout />,
       children: [
         {
-          index: true,
-          path: '/greenhouse',
+          path: '/greenhouse/*',
           element: <Greenhouse />,
           errorElement: <NotFound />
         }, {
           path: '/carbon',
           element: <Carbon />,
           errorElement: <NotFound />
+        }, {
+          path: '/energy',
+          element: <Energy />,
+          errorElement: <NotFound />
         }
       ]
-    },
-    {
-      index: true,
-      path: '/home',
-      element: <Home />
     }
   ];
   let elements = useRoutes(routers);
   return (
 
-    <div>
-      {/* {elements} */}
-      <Routes>
+    <>
+      {elements}
+      {/* <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index path='/greenhouse' element={<Greenhouse />}/>
+          <Route path='/' element={<Navigate to='/home'/>}/>
+          <Route path='/home' element={<Home/>} />
+          <Route path='/greenhouse' element={<Greenhouse />}/>
           <Route path='/carbon'element={<Carbon />}/>
         </Route>
 
-      </Routes>
-    </div>
+      </Routes> */}
+    </>
   );
 }
 

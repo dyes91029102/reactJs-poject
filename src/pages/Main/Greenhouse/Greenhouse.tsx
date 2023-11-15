@@ -1,6 +1,11 @@
-import React, { FC, useContext } from 'react';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
-import { useGetQuery } from '../../../hooks/httpClient';
+import React, { FC, useContext, useEffect } from 'react';
+import { Navigate, RouteObject, useLocation, useParams, useRoutes, useSearchParams } from 'react-router-dom';
+import TokenService from '../../../services/token.service';
+import api from '../../../utils/api';
+import GreenhouseIndex from './Index';
+import NotFound from '../../../components/NotFound/NotFound';
+import BoundarySetting from './BoundarySetting/BoundarySetting';
+import GreenhouseList from './GreenhouseList';
 
 
 interface GreenhouseProps { }
@@ -11,35 +16,43 @@ export interface TestDataModel {
 }
 
 const Greenhouse: FC<GreenhouseProps> = () => {
-  const { data, isError, isLoading } = useGetQuery('testData.json');
-  const params = useParams();
-  const locationObj = useLocation();
-  // 路由相關GET參數
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(data, isError, isLoading)
-
-  if (isLoading) {
-    return (<div>Loading...</div>);
-  }
-
-  if (isError) {
-    return (<div>error...</div>);
-  }
+  const searchParam = {
+    "searchKey": null,
+    "sortKey": null,
+    "sortType": null,
+    "choiceCompanies": [
+      "962d2087-2206-4b76-9841-a7c006f37b59"
+    ],
+    "choiceYears": []
+  };
 
 
-  const cancelRefreshToken = () => {
-  }
+    // 創建router
+    const routers: RouteObject[] = [
+      {
+        path: '/',
+        element: <GreenhouseIndex />,
+        children: [
+          {
+            path: '',
+            element: <Navigate to='list'/>
+          },
+          {
+            path: '/list',
+            element: <GreenhouseList />,
+            errorElement: <NotFound />
+          }, {
+            path: '/boundarysetting/:ghgId/list',
+            element: <BoundarySetting />
+          }
+        ]
+      }
+    ];
+    let elements = useRoutes(routers);
   return (
-    <div>
-
-      <div className='loginBox'>
-        <button onClick={cancelRefreshToken}> 取消refresh token</button>
-      </div>
-      {locationObj.pathname}
-      {data.map((item) => {
-        return (<div>{item.id}:{item.name}</div>);
-      })}
-    </div>
+    <>
+      {elements}
+    </>
   );
 }
 

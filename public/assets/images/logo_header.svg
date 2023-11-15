@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="289px" height="40px" viewBox="0 0 289 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo_edu@3x</title>
+    <defs>
+        <polygon id="path-1" points="0.346069485 0.8913 15.019 0.8913 15.019 17 0.346069485 17"></polygon>
+        <polygon id="path-3" points="0 0.9668 8.7693 0.9668 8.7693 7.9998 0 7.9998"></polygon>
+        <polygon id="path-5" points="0 0 14.6731684 0 14.6731684 16.108 0 16.108"></polygon>
+        <polygon id="path-7" points="0.2494 0.195 9.019 0.195 9.019 7.227 0.2494 7.227"></polygon>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo" transform="translate(-17.000000, -47.000000)">
+            <g id="Header" transform="translate(0.000000, 33.000000)">
+                <g id="logo_edu" transform="translate(17.000000, 14.000000)">
+                    <rect id="Rectangle" x="0" y="0" width="289" height="40"></rect>
+                    <g id="Group-13" transform="translate(13.000000, 8.805600)">
+                        <g id="Group-3" transform="translate(4.000000, 4.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <g id="Clip-2"></g>
+                            <path d="M0.8453,5.0383 L3.9593,6.8363 L5.8953,5.7373 L3.1503,4.1523 L5.3773,2.8653 C5.4893,2.8023 5.6253,2.8023 5.7363,2.8653 L10.7683,5.7703 L12.9353,7.0223 C13.0833,7.1073 13.1753,7.2673 13.1753,7.4383 L13.1753,10.0053 C13.1753,10.6483 12.8283,11.2493 12.2723,11.5703 L5.8853,14.8713 L5.8853,17.0003 L13.4203,13.0363 C14.4073,12.4673 15.0193,11.4063 15.0193,10.2673 L15.0193,6.5603 C15.0193,6.2733 14.8653,6.0073 14.6173,5.8643 L7.7593,1.9043 L6.3903,1.1143 C6.1373,0.9683 5.8493,0.8913 5.5573,0.8913 C5.2653,0.8913 4.9773,0.9683 4.7243,1.1143 L0.8253,3.3653 C0.4103,3.6043 0.2163,4.1353 0.4403,4.6123 C0.5253,4.7933 0.6723,4.9383 0.8453,5.0383" id="Fill-1" fill="#4E5B75" mask="url(#mask-2)"></path>
+                        </g>
+                        <g id="Group-6" transform="translate(0.000000, 13.000000)">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <g id="Clip-5"></g>
+                            <path d="M0.9283,3.6018 L8.7693,7.9998 L8.7693,5.8858 L-0.0007,0.9668 L-0.0007,2.0168 C-0.0007,2.6738 0.3553,3.2808 0.9283,3.6018" id="Fill-4" fill="#4E5B75" mask="url(#mask-4)"></path>
+                        </g>
+                        <g id="Group-9" transform="translate(0.000000, 0.194500)">
+                            <mask id="mask-6" fill="white">
+                                <use xlink:href="#path-5"></use>
+                            </mask>
+                            <g id="Clip-8"></g>
+                            <path d="M14.1735,11.962 L11.0595,10.163 L9.1245,11.263 L11.8695,12.848 L9.6415,14.134 C9.5305,14.198 9.3945,14.198 9.2825,14.134 L4.2515,11.229 L2.0845,9.978 C1.9355,9.892 1.8435,9.733 1.8435,9.561 L1.8435,6.994 C1.8435,6.351 2.1905,5.751 2.7475,5.429 L9.1345,2.129 L9.1345,0 L1.5995,3.963 C0.6125,4.532 -0.0005,5.594 -0.0005,6.733 L-0.0005,10.44 C-0.0005,10.726 0.1535,10.992 0.4015,11.136 L7.2595,15.095 L8.6285,15.886 C8.8815,16.031 9.1695,16.108 9.4625,16.108 C9.7545,16.108 10.0425,16.031 10.2955,15.886 L14.1935,13.635 C14.6085,13.395 14.8035,12.865 14.5785,12.388 C14.4935,12.206 14.3475,12.062 14.1735,11.962" id="Fill-7" fill="#9255D8" mask="url(#mask-6)"></path>
+                        </g>
+                        <g id="Group-12" transform="translate(10.000000, 0.000000)">
+                            <mask id="mask-8" fill="white">
+                                <use xlink:href="#path-7"></use>
+                            </mask>
+                            <g id="Clip-11"></g>
+                            <path d="M8.0914,4.592 L0.2494,0.195 L0.2494,2.308 L9.0194,7.227 L9.0194,6.178 C9.0194,5.521 8.6644,4.914 8.0914,4.592" id="Fill-10" fill="#9255D8" mask="url(#mask-8)"></path>
+                        </g>
+                    </g>
+                    <text id="Chase-Sustainability" font-family="sans-serif" font-size="18" font-weight="300" line-spacing="21" fill="#23242D">
+                        <tspan x="41" y="28">Chase Sustainability Cloud</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

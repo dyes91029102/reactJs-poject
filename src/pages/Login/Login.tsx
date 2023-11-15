@@ -1,10 +1,9 @@
 import React, { FC, useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // import '../../scss/pages/login.scss';
-import lgoinLogo from './../../assets/images/login_logo.svg';
-import { getMe, login } from '../../services/loginService';
-import { setAuthToken, setRefreshToken, setUserInfo } from '../../utils/token';
-import { AuthContext, TodoContextType } from '../../context/authProvider';
+import TokenService from '../../services/token.service';
+import { AuthContext, AuthContextType } from '../../context/AuthProvider';
+import LoginService from '../../services/login.service';
 interface LoginProps { }
 
 const Login: FC<LoginProps> = () => {
@@ -13,7 +12,7 @@ const Login: FC<LoginProps> = () => {
   const [username, setUsername] = useState('brookchen@chase.com.tw');
   const [password, setPassword] = useState('1234');
   const [errorMessage, setErrorMessage] = useState();
-  const { setUser } = useContext(AuthContext) as TodoContextType;
+  const { setUser } = useContext(AuthContext) as AuthContextType;
   const handleUsername = (e: any) => {
     setUsername(e.target.value);
   };
@@ -22,23 +21,25 @@ const Login: FC<LoginProps> = () => {
     setPassword(e.target.value);
   };
 
+  
+
   // 阻止送出表單
   const handleLogin = (e: any) => {
 
     e.preventDefault();
-    login({
+    LoginService.login({
       account: username,
       password: password
     })
       .then(x => {
         if (x.success) {
           // 成功的話就把 token 存到 localStorage
-          setAuthToken(x.data.access_token);
-          setRefreshToken(x.data.refresh_token)
+          TokenService.setAuthToken(x.data.access_token);
+          TokenService.setRefreshToken(x.data.refresh_token)
           // 取得個人資料
-          setUserInfo(x.data);
+          TokenService.setUserInfo(x.data);
           setUser(x.data);
-     
+
           navigate('/home');
         } else {
 
@@ -50,11 +51,14 @@ const Login: FC<LoginProps> = () => {
 
   return (
     <div>
-      <div className='loginbg'>
+      <div className='loginbg' 
+      style={{ 
+        'backgroundImage': `url('assets/images/login_bg.png')`
+      }}>
         <form className='form-signin' onSubmit={handleLogin}>
           <div className='text-center mb-4'>
             <img alt='login logo' className='mb-4'
-              src={lgoinLogo}
+              src="/assets/images/login_logo.svg"
               style={{ width: '280px', height: '75px' }}
             />
           </div>
@@ -79,7 +83,10 @@ const Login: FC<LoginProps> = () => {
           <div className='form-label-group'>
 
             <div className='loginBox'>
-              <button>登入</button>
+              <button 
+              className='login-link'>
+                登入
+                </button>
             </div>
           </div>
         </form>

@@ -1,0 +1,42 @@
+// 以元件來區分
+
+
+.sidebar-sticky {
+    background-color: #F7FCFF;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 48px);
+    width: 75px;
+
+    .link-box {
+        padding: 3px 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            width: 40px;
+        }
+
+        .nav-link {
+            font-size: 15px;
+            margin-bottom: 1px;
+            font-weight: 500;
+            color: #333;
+            padding: 12px 10px;
+
+            &.active {
+                color: #385781;
+                border-left: 5px solid #29ACEC;
+                background-color: rgba(120, 213, 247, 0.2);
+                border-bottom: 0px;
+            }
+
+            &:hover {
+                background-color: rgba(120, 213, 247, 0.1);
+                border-left: 5px solid rgba(41, 172, 236, 0.2);
+            }
+        }
+
+    }
+}

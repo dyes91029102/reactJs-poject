@@ -1,0 +1,23 @@
+body {
+    background-color: #ECF4F7;
+}
+
+
+.nav-container {
+    background-color: #FFF;
+    padding-left: 55px;
+
+    h1 {
+        padding: 30px 0;
+
+        .nav-img {
+            width: 40px;
+            vertical-align: middle;
+        }
+        .nav-title{
+            color: #29acec;
+            font-size: 26px;
+        }
+
+    }
+}

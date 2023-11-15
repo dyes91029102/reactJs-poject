@@ -5,7 +5,7 @@ interface NotFoundProps {}
 
 const NotFound: FC<NotFoundProps> = () => (
   <div>
-    NotFound Component
+    找不到頁面
   </div>
 );
 

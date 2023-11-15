@@ -1,24 +1,35 @@
-import React, { FC } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { FC } from "react";
+import { NavLink } from "react-router-dom";
 
 
 interface SidebarProps { }
 
 const Sidebar: FC<SidebarProps> = () => (
-  <>
-    {/* 父層不更動的部分 */}
-    <ul className="nav-items">
-    <li>
-        <NavLink to={`/main/home`}>首頁</NavLink>
+  <div className="sidebar-sticky pt-3 scroll">
+    <ul className="nav flex-column">
+      <li>
+        <div className="link-box">
+          <NavLink to={`greenhouse`} className="nav-link">
+            <img src="/assets/images/module-icon/greenhouse.svg" alt="greenhouse" />
+          </NavLink>
+        </div>
       </li>
       <li>
-        <NavLink to={`greenhouse`}>溫盤模組</NavLink>
+        <div className="link-box" >
+          <NavLink to={`carbon`} className="nav-link">
+            <img src="/assets/images/module-icon/carbon.svg" alt="carbon" />
+          </NavLink>
+        </div>
       </li>
-      <li>
-        <NavLink to={`carbon`}>碳排模組</NavLink>
+      <li className="nav-item relative">
+        <div className="link-box">
+          <NavLink to={`energy`} className="nav-link">
+            <img src="/assets/images/module-icon/energy.svg" alt="project" />
+          </NavLink>
+        </div>
       </li>
     </ul>
-  </>
+  </div>
 );
 
 export default Sidebar;

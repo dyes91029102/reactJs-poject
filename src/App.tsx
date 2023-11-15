@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
 import NotFound from './components/NotFound/NotFound';
 import { Provider } from 'react-redux';
+import Home from './pages/Home/Home';
 
 
 /** router 範例 */
@@ -15,12 +16,20 @@ const App: FC<any> = () => {
 
   const routers = createBrowserRouter([
     {
+      path: '/',
+      element: <Navigate to='/login'/>
+    },
+    {
       path: '/login',
       element: <Login />
     },
     {
-      path: '/',
+      path: '/main/*',
       element: <Main /> 
+    },
+    {
+      path: '/home',
+      element: <Home /> 
     },
     {
       path: '*',
@@ -28,14 +37,14 @@ const App: FC<any> = () => {
     }
   ])
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/main' element={<Main />}>
-        </Route>
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path='/' element={<Login />} />
+    //     <Route path='/main' element={<Main />}>
+    //     </Route>
+    //     <Route path='*' element={<NotFound />} />
+    //   </Routes>
+    // </BrowserRouter>
     // <BrowserRouter>
     //   <Routes>
     //     <Route path='/login'/>
@@ -49,7 +58,7 @@ const App: FC<any> = () => {
     //     </Route>
     //   </Routes>
     // </BrowserRouter>
-    // <RouterProvider router={routers} />
+    <RouterProvider router={routers} />
   );
 }
 export default App;
