@@ -6,10 +6,13 @@ import Layout from '../Layout/Layout';
 import Greenhouse from './Greenhouse/Greenhouse';
 import Carbon from './Carbon/Carbon';
 import Energy from './Energy/Energy';
+import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute';
+import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 
 interface MainProps { }
 
 const Main: FC<MainProps> = () => {
+  const { user } = useContext(AuthContext) as AuthContextType;
 
   // 創建router
   const routers: RouteObject[] = [
@@ -23,7 +26,10 @@ const Main: FC<MainProps> = () => {
           errorElement: <NotFound />
         }, {
           path: '/carbon',
-          element: <Carbon />,
+          element:
+            <ProtectedRoute isAllowed={user && user.permission.pages.includes('carbon')}>
+              <Carbon />
+            </ProtectedRoute>,
           errorElement: <NotFound />
         }, {
           path: '/energy',

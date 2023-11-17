@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './context/AuthProvider';
-
+import './i18n/i18n';
+// 取得index.html 原點
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+// 渲染組件
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    {/* Suspense 語言從外部 加載時效果理想 */}
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </Suspense>
   </React.StrictMode>
 );
 

@@ -1,5 +1,10 @@
 {
     "css.validate": false,
     "scss.validate": false,
-    "less.validate": false
+    "less.validate": false,
+    "i18n-ally.localesPaths": [
+        "src/i18n/i18n",
+        "public/locales"
+    ],
+    "i18n-ally.keystyle": "flat"
 }

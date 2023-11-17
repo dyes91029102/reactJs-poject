@@ -5,3 +5,8 @@ export interface BaseResponse<T> {
     Data: T;
 }
 
+/** 基礎option model */
+export interface OptionModel {
+    id: string;
+    text: string;
+}

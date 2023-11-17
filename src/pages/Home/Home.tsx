@@ -1,18 +1,21 @@
-import React, { FC } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { FC, useContext } from 'react';
+import { Link, NavLink, Navigate } from 'react-router-dom';
 import CustomNavbar from '../../components/Navbar/Navbar';
 import HomeCard from '../../components/HomeCard/HomeCard';
+import { AuthContext, AuthContextType } from '../../context/AuthProvider';
+import { useTranslation } from 'react-i18next';
 
 
 interface HomeProps { }
 
 const Home: FC<HomeProps> = () => {
+  const { t } = useTranslation();
 
   const imgBaseUrl = '/assets/images/module-icon';
   const imgArr = [
     /* 組織溫室氣體 */
     {
-      title: '組織溫室氣體',
+      title: t('GREENHOUSE'),
       englishTitle: 'GHG Emission',
       router: 'greenhouse',
       colorIndex: 3,
@@ -24,7 +27,7 @@ const Home: FC<HomeProps> = () => {
     },
     /* 產品碳足跡 */
     {
-      title: '產品碳足跡',
+      title: t('CARBON'),
       englishTitle: 'Carbon Footprint',
       router: 'carbon',
       colorIndex: 4,
@@ -36,17 +39,7 @@ const Home: FC<HomeProps> = () => {
     },
   ];
 
-   /**設定深淺 */
-  const setOpacity = (item: any, opacity: number) =>{
-    console.log(item);
-    item.opacity = opacity;
-  }
 
-  
-  /** 取得顏色 */
-  const getColor = (item: any)=> {
-    return `rgba(${item.color},${item.opacity})`
-  }
   return (
     <div >
       {/* navbar */}
@@ -64,7 +57,7 @@ const Home: FC<HomeProps> = () => {
           {
             imgArr.map(item => {
               return (
-                <HomeCard key={item.router} item={item}/>
+                <HomeCard key={item.router} item={item} />
               )
             })
           }

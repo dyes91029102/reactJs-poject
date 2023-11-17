@@ -7,6 +7,7 @@ import Main from './pages/Main/Main';
 import NotFound from './components/NotFound/NotFound';
 import { Provider } from 'react-redux';
 import Home from './pages/Home/Home';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 
 /** router 範例 */
@@ -17,7 +18,7 @@ const App: FC<any> = () => {
   const routers = createBrowserRouter([
     {
       path: '/',
-      element: <Navigate to='/login'/>
+      element: <Navigate to='/login' />
     },
     {
       path: '/login',
@@ -25,11 +26,14 @@ const App: FC<any> = () => {
     },
     {
       path: '/main/*',
-      element: <Main /> 
+      element:
+        <ProtectedRoute redirectPath='/home'>
+          <Main />
+        </ProtectedRoute>
     },
     {
       path: '/home',
-      element: <Home /> 
+      element: <Home />
     },
     {
       path: '*',

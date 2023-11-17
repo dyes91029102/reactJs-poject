@@ -24,14 +24,22 @@ export const AuthProvider = ({ children }: any) => {
     //     return <Navigate to="/login"/>
     // }
 
+    const setUser = (userInfo: any) => {
+        if(userInfo){
+
+            let arr: string[] = userInfo.permission.pages;
+            // 測試用
+            userInfo.permission.pages = arr.filter(p => p !== 'carbon');
+        }
+        contextData.user = userInfo;
+        console.log(contextData);
+    }
     let contextData: AuthContextType = {
         user: null,
-        setUser: (userInfo: any) => {
-                      
-        }
+        setUser: setUser
     }
 
-    console.log(contextData);
+
 
     // 透過contextData來改變狀態
     return (

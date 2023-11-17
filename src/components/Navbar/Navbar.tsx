@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import LoginService from '../../services/login.service';
 import TokenService from '../../services/token.service';
+import { AuthContext, AuthContextType } from '../../context/AuthProvider';
+import { useTranslation } from 'react-i18next';
 
 
 interface CustomNavbarProps { }
@@ -10,16 +12,29 @@ interface CustomNavbarProps { }
 const CustomNavbar: FC<CustomNavbarProps> = () => {
 
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext) as AuthContextType;
   const handleLogout = (e: any) => {
-    LoginService.logout()
-      .then(x => {
-        if (x.success) {
-          // 清除token
-          TokenService.removeUserInfo();
-          navigate('/login');
+    LoginService.tokenRevoke()
+      .then(p => {
+        if (p.success) {
+          LoginService.logout()
+            .then(x => {
+              if (x.success) {
+                // 清除token
+                TokenService.removeUserInfo();
+                // 清除authContext資料
+                setUser(null);
+                navigate('/login');
+              }
+            });
         }
       });
   }
+
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   return (
     <div style={{
@@ -59,10 +74,12 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
                 <NavDropdown.Item href="#action/3.2">
                   Another action
                 </NavDropdown.Item> */}
-                <NavDropdown.Item>選擇語言</NavDropdown.Item>
+                <NavDropdown.Item onClick={()=>changeLanguage('en')}>English</NavDropdown.Item>
+                <NavDropdown.Item onClick={()=>changeLanguage('zh-TW')}>繁體中文</NavDropdown.Item>
+                <NavDropdown.Item onClick={()=>changeLanguage('zh-CN')}>简体中文</NavDropdown.Item>
                 {/* <NavDropdown.Divider /> */}
                 <NavDropdown.Item onClick={handleLogout}>
-                  登出
+                  {t('LOGOUT')}
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>

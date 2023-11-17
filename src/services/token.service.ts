@@ -23,6 +23,17 @@ const getRefreshToken = (): string | null => {
     return localStorage.getItem(StorageName.REFRESH_TOKEN_NAME);
 };
 
+// 從 localStorage 讀取 token
+const getLanguage = (): string | null => {
+    return localStorage.getItem(StorageName.LANGUAGE);
+};
+
+// 將 refreshToken 存到 localStorage
+const setLanguage = (lang: string) => {
+    localStorage.setItem(StorageName.LANGUAGE, lang);
+};
+
+
 // 將 refreshToken 存到 localStorage
 const setUserInfo = (data: any) => {
     localStorage.setItem(StorageName.USER_INFO, JSON.stringify(data));

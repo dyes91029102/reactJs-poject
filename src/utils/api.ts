@@ -13,6 +13,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = TokenService.getAuthToken();
+    console.log(token)
     // 無token 就用空的
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -25,12 +26,29 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+let refreshPromise: any = null;
+const clearPromise = () => {
+  refreshPromise = null;
+}
+
+/** 重新取得token */
+const refreshToken = async () => {
+  // 取得refresh token
+  const userInfo = TokenService.getUserInfo();
+  const response = await LoginService.refresh({
+    refreshToken: userInfo.refresh_token,
+    accountId: userInfo.id
+  })
+  console.log(response);
+  return response.data.access_token;
+}
+
 // Add a response interceptor
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    console.log('originalRequest',originalRequest);
+    console.log('originalRequest', originalRequest);
     // const navigate = useNavigate();
     // If the error status is 401 and there is no originalRequest._retry flag,
     // it means the token has expired and we need to refresh it
@@ -38,25 +56,16 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // 取得refresh token
-        const userInfo = TokenService.getUserInfo();
-        console.log(userInfo);
-        // 取得新的token
-        LoginService.refresh({
-          refreshToken: userInfo.refresh_token,
-          accountId: userInfo.id
-        }).then(x => {
-          if (x.success) {
 
-            const token = x.data.access_token;
-            TokenService.setAuthToken(token);
+        if (!refreshPromise) {
+          refreshPromise = refreshToken().finally(clearPromise);
+        }
+        const token = await refreshPromise;
+        TokenService.setAuthToken(token);
 
-            // Retry the original request with the new token
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return axios(originalRequest);
-          }
-        });
-
+        // Retry the original request with the new token
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+        return axios(originalRequest);
 
       } catch (error) {
         // Handle refresh token error or redirect to login
@@ -64,7 +73,7 @@ api.interceptors.response.use(
     }
 
     // 403 錯誤
-    if(error.response.status === 403 && !originalRequest._retry){
+    if (error.response.status === 403 && !originalRequest._retry) {
       alert('無此權限');
       // navigate('/login');
     }

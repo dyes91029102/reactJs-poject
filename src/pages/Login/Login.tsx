@@ -4,10 +4,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import TokenService from '../../services/token.service';
 import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import LoginService from '../../services/login.service';
+import { useTranslation } from "react-i18next";
+import { LocaleArr, LocaleType } from '../../models/localeModel';
+import { OptionModel } from '../../models/baseResponse';
+
 interface LoginProps { }
 
 const Login: FC<LoginProps> = () => {
-
   const navigate = useNavigate()
   const [username, setUsername] = useState('brookchen@chase.com.tw');
   const [password, setPassword] = useState('1234');
@@ -21,7 +24,7 @@ const Login: FC<LoginProps> = () => {
     setPassword(e.target.value);
   };
 
-  
+
 
   // 阻止送出表單
   const handleLogin = (e: any) => {
@@ -35,7 +38,7 @@ const Login: FC<LoginProps> = () => {
         if (x.success) {
           // 成功的話就把 token 存到 localStorage
           TokenService.setAuthToken(x.data.access_token);
-          TokenService.setRefreshToken(x.data.refresh_token)
+          TokenService.setRefreshToken(x.data.refresh_token);
           // 取得個人資料
           TokenService.setUserInfo(x.data);
           setUser(x.data);
@@ -49,12 +52,20 @@ const Login: FC<LoginProps> = () => {
       })
   };
 
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (e: any) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
+  const langArr: OptionModel[] = LocaleArr;
+
+
   return (
     <div>
-      <div className='loginbg' 
-      style={{ 
-        'backgroundImage': `url('assets/images/login_bg.png')`
-      }}>
+      <div className='loginbg'
+        style={{
+          'backgroundImage': `url('assets/images/login_bg.png')`
+        }}>
         <form className='form-signin' onSubmit={handleLogin}>
           <div className='text-center mb-4'>
             <img alt='login logo' className='mb-4'
@@ -78,21 +89,31 @@ const Login: FC<LoginProps> = () => {
               value={password}
               onChange={handlePassword}
             />
-            <label htmlFor='inputPassword'>密碼</label>
+            <label htmlFor='inputPassword'>
+              {t('PASSWORD')}
+            </label>
           </div>
           <div className='form-label-group'>
 
             <div className='loginBox'>
-              <button 
-              className='login-link'>
-                登入
-                </button>
+              <button
+                className='login-link'>
+                {t('LOGIN')}
+              </button>
             </div>
           </div>
         </form>
 
-
-
+        {/*  語系 */}
+        <div>
+          <select defaultValue={i18n.language} onChange={changeLanguage}>
+            {
+              langArr.map(p => {
+                return <option key={p.id} value={p.id}>{p.text}</option>
+              })
+            }
+          </select>
+        </div>
       </div >
     </div>
   );

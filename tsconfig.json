@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "public/locales/zh-TW.ts", "public/locales/zh-CN.ts", "public/locales/en.ts"  ]
 }
