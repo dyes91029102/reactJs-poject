@@ -4,7 +4,7 @@ export interface LoginModel {
 }
 
 
-export interface TokenModel  {
+export interface RefreshTokenModel  {
     refreshToken: string | null;
     accountId: string;
 }

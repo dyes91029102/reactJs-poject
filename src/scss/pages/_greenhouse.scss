@@ -1,0 +1,32 @@
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+
+    .nav-item {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        
+        .nav-link{
+            font-size: 15px;
+            margin-bottom: 1px;
+            font-weight: 500;
+            color: #333;
+            padding: 12px 10px;
+            cursor: pointer;
+
+            &.active {
+                color: #385781;
+                border-bottom: 2px solid #29ACEC;
+                background-color: #f5f9fb;
+            }
+
+            &:hover {
+                background-color: rgba(120, 213, 247, 0.1);
+            }
+        }
+    }
+}

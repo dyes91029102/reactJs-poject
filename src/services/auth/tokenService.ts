@@ -1,4 +1,4 @@
-import StorageName from "../constants/storageName";
+import StorageName from "../../constants/storageName";
 
 
 // 將 token 存到 localStorage
@@ -56,6 +56,22 @@ const removeUserInfo = () => {
     localStorage.setItem(StorageName.ESG_LANG, lang);
 }
 
+/** token 是否到期 */
+const tokenExpire = (): boolean => {
+    let pass = true;
+    let token = getAuthToken();
+    if (token) {
+        console.log(token)
+        // 若token存在，則判斷token到期時間
+        let exp = Number(JSON.parse(atob(token.split('.')[1])).exp + '000');
+
+        console.log('exp', exp)
+        console.log('now', Date.now());
+        pass = exp > Date.now();
+    }
+    return pass;
+}
+
 const TokenService = {
     setAuthToken,
     getAuthToken,
@@ -63,7 +79,10 @@ const TokenService = {
     getRefreshToken,
     setUserInfo,
     getUserInfo,
-    removeUserInfo
+    removeUserInfo,
+    setLanguage,
+    getLanguage,
+    tokenExpire
 };
 
 export default TokenService;

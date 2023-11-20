@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from "react";
-import TokenService from "../services/token.service";
+import TokenService from "../services/auth/tokenService";
 import { Navigate } from "react-router-dom";
 /** 定義類型(靜態資料不可extends) */
 export type AuthContextType = {

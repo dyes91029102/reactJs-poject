@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, RouteObject, createBrowserRouter, RouterP
 
 import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
-import NotFound from './components/NotFound/NotFound';
+import NotFound from './components/Common/NotFound/NotFound';
 import { Provider } from 'react-redux';
 import Home from './pages/Home/Home';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';

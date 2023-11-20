@@ -1,21 +1,29 @@
 import React, { FC, useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // import '../../scss/pages/login.scss';
-import TokenService from '../../services/token.service';
+import TokenService from '../../services/auth/tokenService';
 import { AuthContext, AuthContextType } from '../../context/AuthProvider';
-import LoginService from '../../services/login.service';
 import { useTranslation } from "react-i18next";
 import { LocaleArr, LocaleType } from '../../models/localeModel';
 import { OptionModel } from '../../models/baseResponse';
+import VisuallLoading from '../../components/Common/VisuallLoading/VisuallLoading';
+import { useMutation } from '@tanstack/react-query';
+import LoginService from '../../services/login/loginService';
 
 interface LoginProps { }
 
 const Login: FC<LoginProps> = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [username, setUsername] = useState('brookchen@chase.com.tw');
   const [password, setPassword] = useState('1234');
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState('');
   const { setUser } = useContext(AuthContext) as AuthContextType;
+  // 語系
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState(i18n.language);
+  // 語系清單  
+  const langArr: OptionModel[] = LocaleArr;
+
   const handleUsername = (e: any) => {
     setUsername(e.target.value);
   };
@@ -24,41 +32,42 @@ const Login: FC<LoginProps> = () => {
     setPassword(e.target.value);
   };
 
+  // api 呼叫
+  const loginMutation = useMutation({
+    mutationFn: LoginService.login,
+  });
 
-
-  // 阻止送出表單
+  // 登入
   const handleLogin = (e: any) => {
-
     e.preventDefault();
-    LoginService.login({
+    loginMutation.mutateAsync({
       account: username,
       password: password
+    }).then(x => {
+      console.log(x);
+      if (x.success) {
+        // 成功的話就把 token 存到 localStorage
+        TokenService.setAuthToken(x.data.access_token);
+        TokenService.setRefreshToken(x.data.refresh_token);
+        // 取得個人資料
+        TokenService.setUserInfo(x.data);
+        setUser(x.data);
+
+        navigate('/home');
+      } else {
+
+        return setErrorMessage(x.message);
+      }
     })
-      .then(x => {
-        if (x.success) {
-          // 成功的話就把 token 存到 localStorage
-          TokenService.setAuthToken(x.data.access_token);
-          TokenService.setRefreshToken(x.data.refresh_token);
-          // 取得個人資料
-          TokenService.setUserInfo(x.data);
-          setUser(x.data);
 
-          navigate('/home');
-        } else {
-
-          return setErrorMessage(x.message);
-        }
-
-      })
   };
 
-  const { t, i18n } = useTranslation();
+
+  // 更換語言
   const changeLanguage = (e: any) => {
     i18n.changeLanguage(e.target.value);
+    TokenService.setLanguage(e.target.value);
   };
-
-  const langArr: OptionModel[] = LocaleArr;
-
 
   return (
     <div>
@@ -95,24 +104,30 @@ const Login: FC<LoginProps> = () => {
           </div>
           <div className='form-label-group'>
 
-            <div className='loginBox'>
-              <button
-                className='login-link'>
-                {t('LOGIN')}
-              </button>
-            </div>
+            <button
+              className='login-link'>
+              {t('LOGIN')}
+              {loginMutation.isIdle ? '' : <VisuallLoading />}
+            </button>
+            {/* <div className="w-100 position-relative">
+              <VisuallLoading>
+                <div className='loginBox'>
+                </div>
+              </VisuallLoading>
+            </div> */}
           </div>
         </form>
 
         {/*  語系 */}
         <div>
-          <select defaultValue={i18n.language} onChange={changeLanguage}>
+          <select defaultValue={lang} onChange={changeLanguage}>
             {
               langArr.map(p => {
                 return <option key={p.id} value={p.id}>{p.text}</option>
               })
             }
           </select>
+
         </div>
       </div >
     </div>

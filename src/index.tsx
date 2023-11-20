@@ -4,19 +4,28 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './context/AuthProvider';
 import './i18n/i18n';
+import VisuallLoading from './components/Common/VisuallLoading/VisuallLoading';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 // 取得index.html 原點
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+// 創建實體
+const queryClient = new QueryClient();
+console.log(queryClient)
 // 渲染組件
 root.render(
   <React.StrictMode>
     {/* Suspense 語言從外部 加載時效果理想 */}
-    <Suspense fallback={<div>Loading...</div>}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+    <Suspense fallback={<VisuallLoading loadText={"Loading..."} />}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </AuthProvider>
+      </QueryClientProvider>
     </Suspense>
   </React.StrictMode>
 );

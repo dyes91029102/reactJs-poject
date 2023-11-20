@@ -1,11 +1,11 @@
-import React, { FC, useContext, useEffect } from 'react';
-import { Navigate, RouteObject, useLocation, useParams, useRoutes, useSearchParams } from 'react-router-dom';
-import TokenService from '../../../services/token.service';
-import api from '../../../utils/api';
+import { FC } from 'react';
+import { Navigate,RouteObject,useRoutes } from 'react-router-dom';
 import GreenhouseIndex from './Index';
-import NotFound from '../../../components/NotFound/NotFound';
+import NotFound from '../../../components/Common/NotFound/NotFound';
 import BoundarySetting from './BoundarySetting/BoundarySetting';
 import GreenhouseList from './GreenhouseList';
+import GreenhouseLayout from './GreenhouseLayout';
+import GreenhouseTab2Test from './GreenhouseTab2Test/GreenhouseTab2Test';
 
 
 interface GreenhouseProps { }
@@ -16,42 +16,48 @@ export interface TestDataModel {
 }
 
 const Greenhouse: FC<GreenhouseProps> = () => {
-  const searchParam = {
-    "searchKey": null,
-    "sortKey": null,
-    "sortType": null,
-    "choiceCompanies": [
-      "962d2087-2206-4b76-9841-a7c006f37b59"
-    ],
-    "choiceYears": []
-  };
-
-
-    // 創建router
-    const routers: RouteObject[] = [
-      {
-        path: '/',
-        element: <GreenhouseIndex />,
-        children: [
-          {
-            path: '',
-            element: <Navigate to='list'/>
-          },
-          {
-            path: '/list',
-            element: <GreenhouseList />,
-            errorElement: <NotFound />
-          }, {
-            path: '/boundarysetting/:ghgId/list',
-            element: <BoundarySetting />
-          }
-        ]
-      }
-    ];
-    let elements = useRoutes(routers);
+  // 創建router
+  const routers: RouteObject[] = [
+    {
+      path: '/',
+      element: <GreenhouseIndex />,
+      children: [
+        {
+          path: '/',
+          element: <Navigate to={'list'} />
+        },
+        {
+          path: 'list',
+          element: <GreenhouseList />,
+          errorElement: <NotFound />
+        },
+        {
+          path: ':ghgId',
+          element: <GreenhouseLayout/>,
+          children: [
+            {
+              path: 'boundarysetting/list',
+              element: <BoundarySetting />
+            },
+            {
+              path: 'two',
+              element: <GreenhouseTab2Test />
+            }
+          ]
+        }
+       
+      ]
+    }, {
+      path: 'list',
+      element: <GreenhouseList />,
+      errorElement: <NotFound />
+    }
+  ];
+  // 相當於router
+  let elements = useRoutes(routers);
   return (
     <>
-      {elements}
+      {elements}      
     </>
   );
 }

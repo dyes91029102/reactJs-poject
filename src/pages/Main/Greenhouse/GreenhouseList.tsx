@@ -1,7 +1,13 @@
 import { FC, useEffect } from "react";
-import api from "../../../utils/api";
-import TokenService from "../../../services/token.service";
+import TokenService from "../../../services/auth/tokenService";
 import { useLocation, useNavigate } from "react-router-dom";
+import { POST } from "../../../services/httpClient";
+import { use } from "i18next";
+import { useQuery } from "@tanstack/react-query";
+import GreenhouseService from "../../../services/greenhouse/greenhouseService";
+import GreenhouseQuery, { GreenhouseKeys } from "../../../services/greenhouse/queries";
+import { GreenhouseListModel } from "../../../models/greenhouseModel";
+import VisuallLoading from "../../../components/Common/VisuallLoading/VisuallLoading";
 
 const GreenhouseList: FC<any> = () => {
     const navigate = useNavigate();
@@ -15,38 +21,24 @@ const GreenhouseList: FC<any> = () => {
         "choiceYears": []
     };
 
-    useEffect(() => {
-        api.post('v2/greenhouse/list', searchParam)
-            .then(x => {
-                if (x) {
-                    console.log(x);
-                }
-            })
 
-        return ()=>{};
-    }, []);
+    const { isError, isLoading, data: listData } =
+        GreenhouseQuery.useGetList(searchParam);
 
 
-    const cancelRefreshToken = () => {
-        let token = TokenService.getAuthToken();
-        if (token) {
-            console.log(token)
-            // 若token存在，則判斷token到期時間
-            let exp = Number(JSON.parse(atob(token.split('.')[1])).exp + '000');
+    // const { isError:isError2, isLoading:isLoading2, data: listData2 } = useQuery({
+    //     queryKey: [GreenhouseKeys.list],
+    //     queryFn: ()=> GreenhouseService.getGreenhouseList(searchParam),
+    //     refetchOnWindowFocus: false
+    // });
 
-            console.log('exp', exp)
-            console.log('now', Date.now());
+    console.log(listData?.data);
 
-        }
+    const handOtherPath = (ghgId: string) => {
 
-        navigate('/main/greenhouse/boundarysetting/6ae04009-4f09-4295-aaba-d1885ae87904/list')
-        // api.post('greenhouse/6ae04009-4f09-4295-aaba-d1885ae87904/boundarysetting/list',
-        // searchParam)
-        //   .then(x => {
-        //     if (x) {
-        //       console.log(x);
-        //     }
-        //   })
+
+        navigate(`/main/greenhouse/${ghgId}/boundarysetting/list`);
+
     }
 
     const locationObj = useLocation();
@@ -63,12 +55,28 @@ const GreenhouseList: FC<any> = () => {
             <div style={{
                 padding: '10px 55px'
             }}>
-
-                <div className='loginBox'>
-                    <button onClick={cancelRefreshToken}> Other Person api</button>
-                </div>
-                {locationObj.pathname}
-                {'溫盤頁面'}
+                {isLoading ? <VisuallLoading /> : ''}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>報告書名稱</th>
+                            <th>據點名稱</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            listData?.data.map((p: GreenhouseListModel) => {
+                                return (
+                                    <tr key={p.ghgId} 
+                                    onClick={() => handOtherPath(p.ghgId)}>
+                                        <td>{p.projectName}</td>
+                                        <td>{p.location}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     )

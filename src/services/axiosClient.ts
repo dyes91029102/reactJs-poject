@@ -1,19 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL } from '../constants/base';
-import TokenService from '../services/token.service';
-import LoginService from '../services/login.service';
+import TokenService from './auth/tokenService';
+import loginService from './login/loginService';
 
 // api 基礎設置
-const api = axios.create({
-  baseURL: BASE_URL,
+const axiosClient = axios.create({
+  baseURL: process.env.REACT_APP_API_URL
 });
 
 // Add a request interceptor
-api.interceptors.request.use(
+axiosClient.interceptors.request.use(
   (config) => {
     const token = TokenService.getAuthToken();
-    console.log(token)
     // 無token 就用空的
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -31,24 +28,11 @@ const clearPromise = () => {
   refreshPromise = null;
 }
 
-/** 重新取得token */
-const refreshToken = async () => {
-  // 取得refresh token
-  const userInfo = TokenService.getUserInfo();
-  const response = await LoginService.refresh({
-    refreshToken: userInfo.refresh_token,
-    accountId: userInfo.id
-  })
-  console.log(response);
-  return response.data.access_token;
-}
-
 // Add a response interceptor
-api.interceptors.response.use(
+axiosClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    console.log('originalRequest', originalRequest);
     // const navigate = useNavigate();
     // If the error status is 401 and there is no originalRequest._retry flag,
     // it means the token has expired and we need to refresh it
@@ -58,9 +42,17 @@ api.interceptors.response.use(
       try {
 
         if (!refreshPromise) {
-          refreshPromise = refreshToken().finally(clearPromise);
+          // 取得refresh token
+          const userInfo = TokenService.getUserInfo();
+          if (userInfo) {
+            refreshPromise = loginService.tokenRefresh({
+              refreshToken: userInfo.refresh_token,
+              accountId: userInfo.id
+            }).finally(clearPromise);
+          }
         }
-        const token = await refreshPromise;
+        const data = await refreshPromise;
+        const token = data.data.access_token;
         TokenService.setAuthToken(token);
 
         // Retry the original request with the new token
@@ -82,5 +74,4 @@ api.interceptors.response.use(
   }
 );
 
-
-export default api;
+export default axiosClient;

@@ -1,10 +1,10 @@
 import React, { FC, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext, AuthContextType } from '../../context/AuthProvider';
-import TokenService from '../../services/token.service';
+import TokenService from '../../services/auth/tokenService';
 
 
-interface ProtectedRouteProps {
+type ProtectedRouteProps = {
   children: any;
   /** 導向頁面 */
   redirectPath?: string;
@@ -12,7 +12,8 @@ interface ProtectedRouteProps {
   isAllowed?: boolean;
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = '/home', isAllowed = true }) => {
+const ProtectedRoute: FC<ProtectedRouteProps> = (
+  {children,  redirectPath = '/home', isAllowed = true}) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   console.log(user)
   // 無token 直接回登入頁

@@ -1,8 +1,8 @@
 export interface BaseResponse<T> {
-    Code: number;
-    Success: boolean;
-    Message: string;
-    Data: T;
+    code: number;
+    success: boolean;
+    message: string;
+    data: T;
 }
 
 /** 基礎option model */

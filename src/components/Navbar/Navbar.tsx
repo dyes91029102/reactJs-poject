@@ -1,10 +1,11 @@
 import React, { FC, useContext } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
-import LoginService from '../../services/login.service';
-import TokenService from '../../services/token.service';
+import TokenService from '../../services/auth/tokenService';
 import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@tanstack/react-query';
+import LoginService from '../../services/login/loginService';
 
 
 interface CustomNavbarProps { }
@@ -13,11 +14,18 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
 
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext) as AuthContextType;
+  const logoutMutation = useMutation({
+    mutationFn: LoginService.logout
+  });
+  const tokenRevokeMutation = useMutation({
+    mutationFn: LoginService.tokenRevoke
+  });
   const handleLogout = (e: any) => {
-    LoginService.tokenRevoke()
+    tokenRevokeMutation.mutateAsync()
       .then(p => {
         if (p.success) {
-          LoginService.logout()
+          logoutMutation
+            .mutateAsync()
             .then(x => {
               if (x.success) {
                 // 清除token
@@ -26,14 +34,17 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
                 setUser(null);
                 navigate('/login');
               }
-            });
+            })
         }
-      });
+      })
+
+
   }
 
   const { t, i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    TokenService.setLanguage(lng);
   };
 
   return (
@@ -74,9 +85,9 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
                 <NavDropdown.Item href="#action/3.2">
                   Another action
                 </NavDropdown.Item> */}
-                <NavDropdown.Item onClick={()=>changeLanguage('en')}>English</NavDropdown.Item>
-                <NavDropdown.Item onClick={()=>changeLanguage('zh-TW')}>繁體中文</NavDropdown.Item>
-                <NavDropdown.Item onClick={()=>changeLanguage('zh-CN')}>简体中文</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => changeLanguage('en')}>English</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => changeLanguage('zh-TW')}>繁體中文</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => changeLanguage('zh-CN')}>简体中文</NavDropdown.Item>
                 {/* <NavDropdown.Divider /> */}
                 <NavDropdown.Item onClick={handleLogout}>
                   {t('LOGOUT')}

@@ -1,6 +1,8 @@
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../../../utils/api";
+import { POST } from "../../../../services/httpClient";
+import GreenhouseService from "../../../../services/greenhouse/greenhouseService";
+import GreenhouseQuery from "../../../../services/greenhouse/queries";
 
 interface BoundarySettingProps { }
 
@@ -19,20 +21,23 @@ const BoundarySetting: FC<BoundarySettingProps> = () => {
     第一次進入會先將實體建立->摧毀->建立，好讓下次進入時，以確保上一個實體已結束
     cleanup 函式
     */ 
-    useEffect(() => {
-        api.post(`greenhouse/${params.ghgId}/boundarysetting/list`,
-            searchParam)
-            .then(x => {
-                if (x) {
-                    // console.log(x);
-                }
-            })
 
-            console.log('取得api')
-        return ()=>{
-            console.log('摧毀');
-        }
-    }, [])
+    const {data} = GreenhouseQuery.useGetBoundaryList(params.ghgId || '');
+    console.log(data);
+    // useEffect(() => {
+    //     POST(`greenhouse/${params.ghgId}/boundarysetting/list`,
+    //         searchParam)
+    //         .then(x => {
+    //             if (x) {
+    //                 // console.log(x);
+    //             }
+    //         })
+
+    //         console.log('取得api')
+    //     return ()=>{
+    //         console.log('摧毀');
+    //     }
+    // }, [])
 
     const handleBack = ()=>{
         navigate('/main/greenhouse/list');

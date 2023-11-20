@@ -18,9 +18,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "classnameTransform": "dashes",
+          "customMatcher": "\\.m\\.(c|le|sa|sc)ss$"
+        }
+      }
+    ]
   },
   "include": [
-    "src"
-, "public/locales/zh-TW.ts", "public/locales/zh-CN.ts", "public/locales/en.ts"  ]
+    "src",
+    "public/locales/zh-TW.ts",
+    "public/locales/zh-CN.ts",
+    "public/locales/en.ts"
+  ]
 }
