@@ -34,11 +34,11 @@ i18n
   .use(Backend)    // 使用 i18next-http-backend
   .use(initReactI18next) // 將 i18next 傳入 react-i18next 裡面
   .init({
-    
+    debug: true,
     // 初始語言
     lng: localLang,
     // 當目前的語言檔找不到對應的字詞時，會用 fallbackLng (zh-TW) 作為預設語言
-    fallbackLng: LocaleType.ZhTw,
+    fallbackLng: localLang,
     backend: {
       //網頁載入時去下載語言檔的位置 (從外部直接更動)
       // 默認 public/locales/{lng}/translation.json

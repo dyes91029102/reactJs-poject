@@ -103,7 +103,6 @@ const Login: FC<LoginProps> = () => {
             </label>
           </div>
           <div className='form-label-group'>
-
             <button
               className='login-link'>
               {t('LOGIN')}

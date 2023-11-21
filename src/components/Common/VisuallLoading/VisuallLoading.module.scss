@@ -1,25 +1,24 @@
-.VisuallLoading {
 
-  .loading-screen-wrapper {
-    z-index: 100000;
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.6);
-    width: 100%;
-    height: 100%;
-    display: block;
-    top: 0;
-    left: 0;
+.loading-screen-wrapper {
+  z-index: 100000;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 100%;
+  height: 100%;
+  display: block;
+  top: 0;
+  left: 0;
 
-    .loading-screen-icon {
+  .loading-screen-icon {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
 
-    }
+  }
 
 
-    .loading-text {
+  .loading-text {
       display: flex;
       align-items: center;
       background-color: #000;
@@ -28,18 +27,19 @@
       padding: 10px;
       opacity: 0.4;
       font-size: 18px;
-    }
   }
+}
 
 
-  .lds-ellipsis {
-    // display: inline-block;
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 80px;
-    height: 25px;
-    div{
+.lds-ellipsis {
+  // display: inline-block;
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 80px;
+  height: 25px;
+
+  div {
       position: absolute;
       margin: auto;
       top: 0;
@@ -50,130 +50,129 @@
       animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
       &:nth-child(1) {
-        background: #dab653;
-        left: 8px;
-        animation: lds-ellipsis1 1s infinite, lds-bg1 4s infinite;
+          background: #dab653;
+          left: 8px;
+          animation: lds-ellipsis1 1s infinite, lds-bg1 4s infinite;
       }
 
       &:nth-child(2) {
-        background: #8b7fed;
-        left: 8px;
-        animation: lds-ellipsis2 1s infinite, lds-bg2 4s infinite;
+          background: #8b7fed;
+          left: 8px;
+          animation: lds-ellipsis2 1s infinite, lds-bg2 4s infinite;
       }
 
       &:nth-child(3) {
-        background: #60d6ee;
-        left: 32px;
-        animation: lds-ellipsis2 1s infinite, lds-bg3 4s infinite;
+          background: #60d6ee;
+          left: 32px;
+          animation: lds-ellipsis2 1s infinite, lds-bg3 4s infinite;
       }
 
       &:nth-child(4) {
-        background: #D882F2;
-        left: 56px;
-        animation: lds-ellipsis3 1s infinite, lds-bg4 4s infinite;
+          background: #D882F2;
+          left: 56px;
+          animation: lds-ellipsis3 1s infinite, lds-bg4 4s infinite;
       }
-    }
   }
+}
 
-  @keyframes lds-ellipsis1 {
-    0% {
+@keyframes lds-ellipsis1 {
+  0% {
       transform: scale(0);
-    }
-
-    100% {
-      transform: scale(1);
-    }
   }
 
-  @keyframes lds-ellipsis3 {
-    0% {
+  100% {
       transform: scale(1);
-    }
+  }
+}
 
-    100% {
+@keyframes lds-ellipsis3 {
+  0% {
+      transform: scale(1);
+  }
+
+  100% {
       transform: scale(0);
-    }
   }
+}
 
-  @keyframes lds-ellipsis2 {
-    0% {
+@keyframes lds-ellipsis2 {
+  0% {
       transform: translate(0, 0);
-    }
+  }
 
-    100% {
+  100% {
       transform: translate(24px, 0);
-    }
+  }
+}
+
+@keyframes lds-bg1 {
+  0% {
+      background: #dab653;
   }
 
-  @keyframes lds-bg1 {
-    0% {
-      background: #dab653;
-    }
-
-    25% {
+  25% {
       background: #8b7fed;
-    }
-
-    75% {
-      background: #60d6ee;
-    }
-
-    100% {
-      background: #D882F2;
-    }
   }
 
-  @keyframes lds-bg2 {
-    0% {
-      background: #8b7fed;
-    }
-
-    25% {
+  75% {
       background: #60d6ee;
-    }
-
-    75% {
-      background: #D882F2;
-    }
-
-    100% {
-      background: #dab653;
-    }
   }
 
-  @keyframes lds-bg3 {
-    0% {
-      background: #60d6ee;
-    }
-
-    25% {
+  100% {
       background: #D882F2;
-    }
+  }
+}
 
-    75% {
-      background: #dab653;
-    }
-
-    100% {
+@keyframes lds-bg2 {
+  0% {
       background: #8b7fed;
-    }
   }
 
-  @keyframes lds-bg4 {
-    0% {
-      background: #D882F2;
-    }
-
-    25% {
-      background: #dab653;
-    }
-
-    75% {
-      background: #8b7fed;
-    }
-
-    100% {
+  25% {
       background: #60d6ee;
-    }
+  }
+
+  75% {
+      background: #D882F2;
+  }
+
+  100% {
+      background: #dab653;
+  }
+}
+
+@keyframes lds-bg3 {
+  0% {
+      background: #60d6ee;
+  }
+
+  25% {
+      background: #D882F2;
+  }
+
+  75% {
+      background: #dab653;
+  }
+
+  100% {
+      background: #8b7fed;
+  }
+}
+
+@keyframes lds-bg4 {
+  0% {
+      background: #D882F2;
+  }
+
+  25% {
+      background: #dab653;
+  }
+
+  75% {
+      background: #8b7fed;
+  }
+
+  100% {
+      background: #60d6ee;
   }
 }
