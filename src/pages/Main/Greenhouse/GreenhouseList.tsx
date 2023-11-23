@@ -1,7 +1,6 @@
 import { FC, useEffect } from "react";
 import TokenService from "../../../services/auth/tokenService";
 import { useLocation, useNavigate } from "react-router-dom";
-import { POST } from "../../../services/httpClient";
 import { use } from "i18next";
 import { useQuery } from "@tanstack/react-query";
 import GreenhouseService from "../../../services/greenhouse/greenhouseService";

@@ -1,24 +1,26 @@
 import { LoginModel, RefreshTokenModel } from "../../models/loginModel";
-import { GET, POST } from "../httpClient";
+import { HttpClient } from "../httpClient";
+
+const httpClient = new HttpClient();
 
 /** 登入 */
 const login = (model: LoginModel) => {
-    return POST('login/login', model);
+    return httpClient.post('login/login', model);
 }
 
 /** 登出 */
 const logout = () => {
-    return POST('login/logout');
+    return httpClient.post('login/logout');
 }
 
 /** 註銷refresh token */
 const tokenRevoke = () => {
-    return GET('login/token/revoke');
+    return httpClient.get('login/token/revoke');
 }
 
 /** 註銷refresh token */
 const tokenRefresh = (model:RefreshTokenModel) => {
-    return POST('login/token/refresh', model);
+    return httpClient.post('login/token/refresh', model);
 }
 
 

@@ -1,6 +1,5 @@
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { POST } from "../../../../services/httpClient";
 import GreenhouseService from "../../../../services/greenhouse/greenhouseService";
 import GreenhouseQuery from "../../../../services/greenhouse/queries";
 

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import GreenhouseService from "./greenhouseService";
-import { GreenhouseListModel } from "../../models/greenhouseModel";
 
 /** 定義的keys */
 const GreenhouseKeys = {

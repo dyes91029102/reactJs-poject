@@ -1,12 +1,14 @@
 import { GreenhouseListModel } from "../../models/greenhouseModel";
-import { POST } from "../httpClient"
+import { HttpClient } from "../httpClient";
+
+const httpClient = new HttpClient();
 
 const getGreenhouseList = (searchParam: any) => {
-    return POST<GreenhouseListModel>('v2/greenhouse/list', searchParam)
+    return httpClient.post<GreenhouseListModel>('v2/greenhouse/list', searchParam)
 }
 
 const getBoundarylist = (ghgId: string) => {
-    return POST(`greenhouse/${ghgId}/boundarysetting/list`)
+    return httpClient.post(`greenhouse/${ghgId}/boundarysetting/list`)
 }
 
 /** 溫盤api 方法 */
