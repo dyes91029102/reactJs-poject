@@ -9,7 +9,7 @@ import { OptionModel } from "../../models/baseResponse";
 import VisuallLoading from "../../components/Common/VisuallLoading/VisuallLoading";
 import { useMutation } from "@tanstack/react-query";
 import LoginService from "../../services/login/loginService";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitErrorHandler, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import styles from "./Login.module.scss";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -75,7 +75,7 @@ const Login: FC<LoginProps> = () => {
 
   /** 定義欄位 */
   const registerOptions = {
-    email: { 
+    email: {
       required: "帳號欄位必填",
       pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
     },
@@ -97,15 +97,15 @@ const Login: FC<LoginProps> = () => {
         .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
           "信箱格式不正確"),
       password: yup
-      .string()
-      .required("欄位必填")
+        .string()
+        .required("欄位必填")
       // .min(8,"輸入至少8碼")
 
     })
     .required()
 
   /** 使用form表單 */
-  const { register, handleSubmit, formState: { errors }, setValue, trigger, watch } =
+  const { register, handleSubmit, formState: { errors }, setValue, trigger, watch, control } =
     useForm<IFormLogin>({
       resolver: yupResolver(schema),
       mode: "onChange",
@@ -121,10 +121,15 @@ const Login: FC<LoginProps> = () => {
     TokenService.setLanguage(e.target.value);
   };
 
+  // 針對該control 獨立監聽 
+  const accountSub = useWatch({ control, name: "account" });
+  useEffect(() => {
+    if (accountSub) {
+      console.log({ accountSub });
+    }
+  }, [accountSub]);
 
-  const watchAccount = watch("account");
-  console.log('watchAccount',watchAccount)
-  // 監聽表單的動靜，避免重新渲染(加上useEffect)
+  // 只要wacth 相關的資料有變動就更新，避免重新渲染加上useEffect
   useEffect(() => {
     const subscription = watch((data) => {
       console.log(data);
@@ -147,12 +152,21 @@ const Login: FC<LoginProps> = () => {
           </div>
 
           <div className="form-label-group">
-            <input type="text" id="inputEmail"
-              className="form-control"
-              placeholder="Email"
-              {...register("account",{
-                onChange: handleUsername
-              })}/>
+            {/* 使用controller 將非可控制的變為可控以利跟其他UI元件方便串接 */}
+            <Controller
+              name="account"
+              control={control}
+              render={({ field: {onChange, value} }) => (
+                <input type="text"
+                  id="inputEmail"
+                  className="form-control"
+                  value={value}
+                  onChange={onChange}
+                />
+              )
+              }
+            />
+
             <label htmlFor="inputEmail">Email</label>
             {
               errors.account && (
@@ -167,9 +181,7 @@ const Login: FC<LoginProps> = () => {
             <input type="password" id="inputPassword"
               className="form-control"
               placeholder="密碼"
-              {...register("password",{
-                onChange:handlePassword
-              })}
+              {...register("password")}
             />
             <label htmlFor="inputPassword">
               {t("PASSWORD")}
@@ -200,7 +212,6 @@ const Login: FC<LoginProps> = () => {
               })
             }
           </select>
-
         </div>
       </div >
     </div>
