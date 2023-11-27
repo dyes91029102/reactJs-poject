@@ -2,6 +2,11 @@ body {
     background-color: #ECF4F7;
 }
 
+.invalid {
+    background: #fff0f0;
+    border: 1px solid #ff9898;
+}
+
 
 .nav-container {
     background-color: #FFF;
@@ -14,7 +19,8 @@ body {
             width: 40px;
             vertical-align: middle;
         }
-        .nav-title{
+
+        .nav-title {
             color: #29acec;
             font-size: 26px;
         }

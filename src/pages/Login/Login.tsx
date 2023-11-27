@@ -1,35 +1,41 @@
-import React, { FC, useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-// import '../../scss/pages/login.scss';
-import TokenService from '../../services/auth/tokenService';
-import { AuthContext, AuthContextType } from '../../context/AuthProvider';
+import React, { FC, useContext, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+// import "../../scss/pages/login.scss";
+import TokenService from "../../services/auth/tokenService";
+import { AuthContext, AuthContextType } from "../../context/AuthProvider";
 import { useTranslation } from "react-i18next";
-import { LocaleArr, LocaleType } from '../../models/localeModel';
-import { OptionModel } from '../../models/baseResponse';
-import VisuallLoading from '../../components/Common/VisuallLoading/VisuallLoading';
-import { useMutation } from '@tanstack/react-query';
-import LoginService from '../../services/login/loginService';
-
+import { LocaleArr, LocaleType } from "../../models/localeModel";
+import { OptionModel } from "../../models/baseResponse";
+import VisuallLoading from "../../components/Common/VisuallLoading/VisuallLoading";
+import { useMutation } from "@tanstack/react-query";
+import LoginService from "../../services/login/loginService";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import styles from "./Login.module.scss";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 interface LoginProps { }
 
+/** 登入form 的model */
+interface IFormLogin {
+  account: string;
+  password: string;
+}
 const Login: FC<LoginProps> = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('brookchen@chase.com.tw');
-  const [password, setPassword] = useState('1234');
-  const [errorMessage, setErrorMessage] = useState('');
   const { setUser } = useContext(AuthContext) as AuthContextType;
   // 語系
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
   // 語系清單  
   const langArr: OptionModel[] = LocaleArr;
-
   const handleUsername = (e: any) => {
-    setUsername(e.target.value);
+    setValue("account", e.target.value);
+    // trigger("account");
   };
 
   const handlePassword = (e: any) => {
-    setPassword(e.target.value);
+    setValue("password", e.target.value);
+
   };
 
   // api 呼叫
@@ -38,11 +44,12 @@ const Login: FC<LoginProps> = () => {
   });
 
   // 登入
-  const handleLogin = (e: any) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<IFormLogin> = (data) => {
+    console.log(data);
+    // e.preventDefault();
     loginMutation.mutateAsync({
-      account: username,
-      password: password
+      account: data.account,
+      password: data.password
     }).then(x => {
       console.log(x);
       if (x.success) {
@@ -53,15 +60,60 @@ const Login: FC<LoginProps> = () => {
         TokenService.setUserInfo(x.data);
         setUser(x.data);
 
-        navigate('/home');
+        navigate("/home");
       } else {
 
-        return setErrorMessage(x.message);
+        console.log(x)
       }
     })
 
   };
 
+  const onError: SubmitErrorHandler<IFormLogin> = (errors) => {
+    console.log(errors);
+  }
+
+  /** 定義欄位 */
+  const registerOptions = {
+    email: { 
+      required: "帳號欄位必填",
+      pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+    },
+    password: {
+      required: "欄位必填",
+      minLength: {
+        value: 8,
+        message: "輸入至少8碼"
+      }
+    }
+  };
+
+  /** 表單schema (套件yup) */
+  const schema = yup
+    .object({
+      account: yup
+        .string()
+        .required("帳號欄位必填")
+        .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+          "信箱格式不正確"),
+      password: yup
+      .string()
+      .required("欄位必填")
+      // .min(8,"輸入至少8碼")
+
+    })
+    .required()
+
+  /** 使用form表單 */
+  const { register, handleSubmit, formState: { errors }, setValue, trigger, watch } =
+    useForm<IFormLogin>({
+      resolver: yupResolver(schema),
+      mode: "onChange",
+      defaultValues: {
+        account: "brookchen@chase.com.tw",
+        password: "1234"
+      }
+    });
 
   // 更換語言
   const changeLanguage = (e: any) => {
@@ -69,51 +121,73 @@ const Login: FC<LoginProps> = () => {
     TokenService.setLanguage(e.target.value);
   };
 
+
+  const watchAccount = watch("account");
+  console.log('watchAccount',watchAccount)
+  // 監聽表單的動靜，避免重新渲染(加上useEffect)
+  useEffect(() => {
+    const subscription = watch((data) => {
+      console.log(data);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   return (
-    <div>
-      <div className='loginbg'
+    <div className={styles['login-box']}>
+      <div className="loginbg"
         style={{
-          'backgroundImage': `url('assets/images/login_bg.png')`
+          "backgroundImage": `url("assets/images/login_bg.png")`
         }}>
-        <form className='form-signin' onSubmit={handleLogin}>
-          <div className='text-center mb-4'>
-            <img alt='login logo' className='mb-4'
+        <form className="form-signin" onSubmit={handleSubmit(onSubmit, onError)}>
+          <div className="text-center mb-4">
+            <img alt="login logo" className="mb-4"
               src="/assets/images/login_logo.svg"
-              style={{ width: '280px', height: '75px' }}
+              style={{ width: "280px", height: "75px" }}
             />
           </div>
 
-          <div className='form-label-group'>
-            <input type='text' id='inputEmail'
-              className='form-control'
-              placeholder='Email'
-              value={username}
-              onChange={handleUsername} />
-            <label htmlFor='inputEmail'>Email</label>
-          </div>
-
-          <div className='form-label-group'>
-            <input type='password' id='password'
-              className='form-control'
-              value={password}
-              onChange={handlePassword}
-            />
-            <label htmlFor='inputPassword'>
-              {t('PASSWORD')}
-            </label>
-          </div>
-          <div className='form-label-group'>
-            <button
-              className='login-link'>
-              {t('LOGIN')}
-              {loginMutation.isIdle ? '' : <VisuallLoading />}
-            </button>
-            {/* <div className="w-100 position-relative">
-              <VisuallLoading>
-                <div className='loginBox'>
+          <div className="form-label-group">
+            <input type="text" id="inputEmail"
+              className="form-control"
+              placeholder="Email"
+              {...register("account",{
+                onChange: handleUsername
+              })}/>
+            <label htmlFor="inputEmail">Email</label>
+            {
+              errors.account && (
+                <div className="invalid">
+                  {errors.account?.message}
                 </div>
-              </VisuallLoading>
-            </div> */}
+              )
+            }
+          </div>
+
+          <div className="form-label-group">
+            <input type="password" id="inputPassword"
+              className="form-control"
+              placeholder="密碼"
+              {...register("password",{
+                onChange:handlePassword
+              })}
+            />
+            <label htmlFor="inputPassword">
+              {t("PASSWORD")}
+            </label>
+            {
+              errors.password && (
+                <div className="invalid">
+                  {errors.password?.message}
+                </div>
+              )
+            }
+          </div>
+          <div className="form-label-group">
+            <button
+              className="login-link">
+              {t("LOGIN")}
+              {loginMutation.isIdle ? "" : <VisuallLoading />}
+            </button>
           </div>
         </form>
 
@@ -133,5 +207,7 @@ const Login: FC<LoginProps> = () => {
   );
 
 }
+
+
 
 export default Login;

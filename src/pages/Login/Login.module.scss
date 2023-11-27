@@ -1,0 +1,153 @@
+:global {
+    :local(.login-box) {
+
+        .loginbg {
+
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "Noto Sans TC", "Open Sans", "SF Pro TC", "SF Pro Text",
+                "SF Pro Icons", "PingFang TC", "Helvetica Neue", "Helvetica", "Arial",
+                sans-serif !important;
+        }
+
+        .form-signin {
+
+            width: 100%;
+            max-width: 420px;
+            padding: 15px;
+            margin: auto;
+
+            .form-label-group {
+
+                margin-bottom: 1px;
+                position: relative;
+
+                label {
+                    color: #385781;
+                    position: absolute;
+                    top: 0;
+                    left: -1px;
+                    display: block;
+                    width: 100%;
+                    margin-bottom: 0;
+                    /* Override default `<label>` margin */
+                    line-height: 1.5;
+                    color: #495057;
+                    pointer-events: none;
+                    cursor: text;
+                    /* Match the input under the label */
+                    border: 1px solid transparent;
+                    border-radius: .25rem;
+                    transition: all .1s ease-in-out;
+                }
+
+                input  {
+                    height: 3.125rem;
+
+                    &~label {
+
+                        height: 3.125rem;
+                        padding: 0.75rem;
+                        color: #777;
+                    }
+
+                }
+
+                input::-webkit-input-placeholder {
+                    color: transparent;
+                }
+
+                input::-moz-placeholder {
+                    color: transparent;
+                }
+
+                input::-ms-input-placeholder {
+                    color: transparent;
+                }
+
+                input::placeholder {
+                    color: transparent;
+                }
+
+                input:not(:-moz-placeholder-shown) {
+                    padding-top: 1.25rem;
+                    padding-bottom: .25rem;
+                }
+
+                input:not(:-ms-input-placeholder) {
+                    padding-top: 1.25rem;
+                    padding-bottom: .25rem;
+                }
+
+                input:not(:placeholder-shown) {
+                    padding-top: 1.25rem;
+                    padding-bottom: .25rem;
+                }
+
+                input:not(:-moz-placeholder-shown)~label {
+                    padding-top: .25rem;
+                    padding-bottom: .25rem;
+                    font-size: 12px;
+                    color: #777;
+                }
+
+                input:not(:-ms-input-placeholder)~label {
+                    padding-top: .25rem;
+                    padding-bottom: .25rem;
+                    font-size: 12px;
+                    color: #777;
+                }
+
+                input:not(:placeholder-shown)~label {
+                    padding-top: .25rem;
+                    padding-bottom: .25rem;
+                    font-size: 12px;
+                    color: #777;
+                }
+
+            }
+
+        }
+    }
+}
+
+
+
+
+
+// 按鈕測試
+.loginBox {
+    background-color: #2968c4;
+    color: #fff;
+    border-radius: 3px;
+    margin-top: 19px;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+
+    .loginBox {
+        border-color: black;
+        border-radius: 0.25rem;
+        background-color: #007bff;
+        height: 56px;
+
+        .login-link {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    }
+
+    .loginText {
+        font-size: 15px;
+    }
+
+    &:hover {
+        background-color: #007bff;
+    }
+}
