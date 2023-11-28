@@ -14,7 +14,6 @@ const root = ReactDOM.createRoot(
 
 // 創建實體
 const queryClient = new QueryClient();
-console.log(queryClient)
 // 渲染組件
 root.render(
   <React.StrictMode>

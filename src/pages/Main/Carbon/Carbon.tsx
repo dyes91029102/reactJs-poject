@@ -1,12 +1,15 @@
 import React, { FC } from 'react';
 
 
-interface CarbonProps {}
+interface CarbonProps { }
 
-const Carbon: FC<CarbonProps> = () => (
-  <div>
-    Carbon Component
-  </div>
-);
+const Carbon: FC<CarbonProps> = () => {
+  console.log('carbon')
+  return (
+    <div>
+      Carbon Component
+    </div>
+  );
+}
 
 export default Carbon;

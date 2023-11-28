@@ -1,4 +1,4 @@
-import { OptionModel } from "./baseResponse"
+import { OptionModel } from "./baseModel"
 
 /** 語言類型 */
 export const LocaleType = {

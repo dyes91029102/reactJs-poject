@@ -1,4 +1,4 @@
-import { BaseResponse } from "../models/baseResponse";
+import { BaseResponse } from "../models/baseModel";
 import axiosClient from "../services/axiosClient";
 
 export class HttpClient {

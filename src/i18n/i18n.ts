@@ -23,8 +23,6 @@ if (!localLang) {
   }
 }
 
-console.log(localLang)
-
 /** 
  * i18next-http-backend 則是能夠讓語言檔透過 
  * XMLHttpRequest 或 the fetch API 來載入
@@ -34,7 +32,7 @@ i18n
   .use(Backend)    // 使用 i18next-http-backend
   .use(initReactI18next) // 將 i18next 傳入 react-i18next 裡面
   .init({
-    debug: true,
+    // debug: true,
     // 初始語言
     lng: localLang,
     // 當目前的語言檔找不到對應的字詞時，會用 fallbackLng (zh-TW) 作為預設語言

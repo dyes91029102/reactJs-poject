@@ -5,7 +5,7 @@ import TokenService from "../../services/auth/tokenService";
 import { AuthContext, AuthContextType } from "../../context/AuthProvider";
 import { useTranslation } from "react-i18next";
 import { LocaleArr, LocaleType } from "../../models/localeModel";
-import { OptionModel } from "../../models/baseResponse";
+import { OptionModel } from "../../models/baseModel";
 import VisuallLoading from "../../components/Common/VisuallLoading/VisuallLoading";
 import { useMutation } from "@tanstack/react-query";
 import LoginService from "../../services/login/loginService";
@@ -21,6 +21,7 @@ interface IFormLogin {
   password: string;
 }
 const Login: FC<LoginProps> = () => {
+  console.log('login')
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext) as AuthContextType;
   // 語系
@@ -28,12 +29,12 @@ const Login: FC<LoginProps> = () => {
   const [lang, setLang] = useState(i18n.language);
   // 語系清單  
   const langArr: OptionModel[] = LocaleArr;
-  const handleUsername = (e: any) => {
+  const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue("account", e.target.value);
     // trigger("account");
   };
 
-  const handlePassword = (e: any) => {
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue("password", e.target.value);
 
   };

@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Navigate,RouteObject,useRoutes } from 'react-router-dom';
-import GreenhouseIndex from './Index';
+import { Navigate,Outlet,RouteObject,useRoutes } from 'react-router-dom';
 import NotFound from '../../../components/Common/NotFound/NotFound';
 import BoundarySetting from './BoundarySetting/BoundarySetting';
 import GreenhouseList from './GreenhouseList';
@@ -20,7 +19,7 @@ const Greenhouse: FC<GreenhouseProps> = () => {
   const routers: RouteObject[] = [
     {
       path: '/',
-      element: <GreenhouseIndex />,
+      element: <Outlet />,
       children: [
         {
           path: '/',

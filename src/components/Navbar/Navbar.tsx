@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import TokenService from '../../services/auth/tokenService';
@@ -11,8 +11,14 @@ import LoginService from '../../services/login/loginService';
 interface CustomNavbarProps { }
 
 const CustomNavbar: FC<CustomNavbarProps> = () => {
-
-  const navigate = useNavigate();
+  console.log('customNav');
+  const navigate = useNavigate();  
+  const { t, i18n } = useTranslation();
+  
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    TokenService.setLanguage(lng);
+  };
   const { setUser } = useContext(AuthContext) as AuthContextType;
   const logoutMutation = useMutation({
     mutationFn: LoginService.logout
@@ -31,7 +37,7 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
                 // 清除token
                 TokenService.removeUserInfo();
                 // 清除authContext資料
-                setUser(null);
+                 setUser(null);
                 navigate('/login');
               }
             })
@@ -41,11 +47,6 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
 
   }
 
-  const { t, i18n } = useTranslation();
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    TokenService.setLanguage(lng);
-  };
 
   return (
     <div style={{
@@ -91,6 +92,7 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
                 {/* <NavDropdown.Divider /> */}
                 <NavDropdown.Item onClick={handleLogout}>
                   {t('LOGOUT')}
+                  
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
