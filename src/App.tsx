@@ -3,14 +3,12 @@ import './scss/all.scss';
 import { BrowserRouter, Routes, Route, RouteObject, createBrowserRouter, RouterProvider, Navigate, useNavigate, Outlet } from 'react-router-dom';
 
 import Login from './pages/Login/Login';
-import Main from './pages/Main/MainRouter';
+import Main from './pages/Main/Main';
 import NotFound from './components/Common/NotFound/NotFound';
-import Home from './pages/Home/Home';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-
 
 /** router 範例 */
 const App: FC<any> = () => {
+  console.log('app render')
   const routers = createBrowserRouter([
     {
       path: '/',
@@ -22,14 +20,7 @@ const App: FC<any> = () => {
     },
     {
       path: '/main/*',
-      element:
-        <ProtectedRoute redirectPath='/home'>
-          <Main />
-        </ProtectedRoute>
-    },
-    {
-      path: '/home',
-      element: <Home/>
+      element: <Main />
     },
     {
       path: '*',

@@ -1,9 +1,9 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, memo, useContext, useMemo } from 'react';
 import { Link, NavLink, Navigate } from 'react-router-dom';
 import CustomNavbar from '../../components/Navbar/Navbar';
-import HomeCard from '../../components/HomeCard/HomeCard';
 import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import { useTranslation } from 'react-i18next';
+import PureHomeCard from '../../components/HomeCard/PureHomeCard';
 
 
 interface HomeProps { }
@@ -57,7 +57,7 @@ const Home: FC<HomeProps> = () => {
           {
             imgArr.map(item => {
               return (
-                <HomeCard key={item.router} item={item} />
+               <PureHomeCard key={item.router} item={item} />
               )
             })
           }

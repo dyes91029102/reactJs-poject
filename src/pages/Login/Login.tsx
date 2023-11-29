@@ -61,7 +61,7 @@ const Login: FC<LoginProps> = () => {
         TokenService.setUserInfo(x.data);
         setUser(x.data);
 
-        navigate("/home");
+        navigate("/main/home");
       } else {
 
         console.log(x)

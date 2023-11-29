@@ -7,14 +7,14 @@ import GreenhouseLayout from './GreenhouseLayout';
 import GreenhouseTab2Test from './GreenhouseTab2Test/GreenhouseTab2Test';
 
 
-interface GreenhouseProps { }
+interface GreenhouseRouterProps { }
 
 export interface TestDataModel {
   id: string;
   name: string;
 }
 
-const Greenhouse: FC<GreenhouseProps> = () => {
+const GreenhouseRouter: FC<GreenhouseRouterProps> = () => {
   // 創建router
   const routers: RouteObject[] = [
     {
@@ -61,4 +61,4 @@ const Greenhouse: FC<GreenhouseProps> = () => {
   );
 }
 
-export default Greenhouse;
+export default GreenhouseRouter;

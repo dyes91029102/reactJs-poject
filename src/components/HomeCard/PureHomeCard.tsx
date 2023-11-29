@@ -6,7 +6,7 @@ interface HomeCardProps {
   item: any;
 }
 
-const HomeCard: FC<HomeCardProps> = (props) => {
+const PureHomeCard: FC<HomeCardProps> = React.memo((props) => {
   const { item } = props;
   /**設定深淺 */
   const setOpacity = (item: any, opacity: number) => {
@@ -51,6 +51,6 @@ const HomeCard: FC<HomeCardProps> = (props) => {
       </Link>
     </div>
   )
-};
+});
 
-export default HomeCard;
+export default PureHomeCard;

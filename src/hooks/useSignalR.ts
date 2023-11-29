@@ -1,28 +1,48 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import { useMount } from "react-use";
 import { AuthContext, AuthContextType } from "../context/AuthProvider";
 import { backgroundResponseModal } from "../models/baseModel";
 
-export default function useSignalR(hubUrl: string) {
+export default function useSignalR() {
     const [hubConnection, setHubConnection] =
         useState<signalR.HubConnection | null>(null);
 
 
     const { userEsgAccountId } = useContext(AuthContext) as AuthContextType;
-    // 組件裝載時 類似class componentDidMount
-    useMount(() => {
-   
-        console.log('mount accountId',userEsgAccountId)
-        const newConnection = new signalR.HubConnectionBuilder()
-            .withUrl(hubUrl, {
-                /* account Id is singalr token */
-                accessTokenFactory: () => userEsgAccountId
-            })
+
+    // const newConnection:signalR.HubConnection = useMemo(() => {
+    //     return new signalR.HubConnectionBuilder()
+    //         .withUrl(`${process.env.REACT_APP_API_URL}/SocketBaseHub`, {
+    //             /* account Id is singalr token */
+    //             accessTokenFactory: () => userEsgAccountId
+    //         })
+    //         .withAutomaticReconnect()
+    //         .build();
+    // }, [userEsgAccountId]);
+
+    const initInstance = () => {
+        // const newConnection = new signalR.HubConnectionBuilder()
+        //     .withUrl(`${process.env.REACT_APP_API_URL}/SocketBaseHub`, {
+        //         /* account Id is singalr token */
+        //        // accessTokenFactory: () => userEsgAccountId
+        //     })
+        //     .withAutomaticReconnect()
+        //     .build();
+            const newConnection = new signalR.HubConnectionBuilder()
+            .withUrl(`${process.env.REACT_APP_API_URL}/SocketBaseHub`)
             .withAutomaticReconnect()
             .build();
 
         setHubConnection(newConnection);
+    }
+
+    // 組件裝載時 類似class componentDidMount
+    useMount(() => {
+        if (!hubConnection) {
+            console.log('initHub')
+            initInstance();
+        }
 
     });
 

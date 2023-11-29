@@ -55,7 +55,7 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
     }}>
       <Navbar expand="md" className="bg-body-tertiary d-flex">
         <Container style={{ margin: 0 }}>
-          <Navbar.Brand href="/home">
+          <Navbar.Brand href="/main/home">
             <img alt="" src="/assets/images/logo_header.svg" />
           </Navbar.Brand>
 
