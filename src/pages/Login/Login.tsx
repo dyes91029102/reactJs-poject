@@ -2,17 +2,17 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 // import "../../scss/pages/login.scss";
 import TokenService from "../../services/auth/tokenService";
-import { AuthContext, AuthContextType } from "../../context/AuthProvider";
 import { useTranslation } from "react-i18next";
 import { LocaleArr, LocaleType } from "../../models/localeModel";
 import { OptionModel } from "../../models/baseModel";
-import VisuallLoading from "../../components/Common/VisuallLoading/VisuallLoading";
 import { useMutation } from "@tanstack/react-query";
 import LoginService from "../../services/login/loginService";
 import { Controller, SubmitErrorHandler, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import styles from "./Login.module.scss";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useUserInfoStore from "../../state/useUserInfoStore";
+import VisuallLoading from "../../components/common/VisuallLoading/VisuallLoading";
 interface LoginProps { }
 
 /** 登入form 的model */
@@ -23,27 +23,22 @@ interface IFormLogin {
 const Login: FC<LoginProps> = () => {
   console.log('login')
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext) as AuthContextType;
   // 語系
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
   // 語系清單  
   const langArr: OptionModel[] = LocaleArr;
-  const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue("account", e.target.value);
-    // trigger("account");
-  };
-
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue("password", e.target.value);
-
-  };
+  // const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValue("account", e.target.value);
+  //   // trigger("account");
+  // };
 
   // api 呼叫
   const loginMutation = useMutation({
     mutationFn: LoginService.login,
   });
 
+  const { setUserInfo} = useUserInfoStore();
   // 登入
   const onSubmit: SubmitHandler<IFormLogin> = (data) => {
     console.log(data);
@@ -52,15 +47,11 @@ const Login: FC<LoginProps> = () => {
       account: data.account,
       password: data.password
     }).then(x => {
-      console.log(x);
       if (x.success) {
         // 成功的話就把 token 存到 localStorage
         TokenService.setAuthToken(x.data.access_token);
         TokenService.setRefreshToken(x.data.refresh_token);
-        // 取得個人資料
-        TokenService.setUserInfo(x.data);
-        setUser(x.data);
-
+        setUserInfo(x.data);
         navigate("/main/home");
       } else {
 

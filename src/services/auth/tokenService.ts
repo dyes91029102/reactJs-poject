@@ -52,7 +52,7 @@ const getUserInfo = (): any => {
 /** 清除使用者資訊 */
 const removeUserInfo = () => {
     const lang = localStorage.getItem(StorageName.ESG_LANG) || '';
-    localStorage.clear();
+    // localStorage.clear();
     localStorage.setItem(StorageName.ESG_LANG, lang);
 }
 

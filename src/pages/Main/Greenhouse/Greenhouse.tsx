@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Navigate,Outlet,RouteObject,useRoutes } from 'react-router-dom';
-import NotFound from '../../../components/Common/NotFound/NotFound';
 import BoundarySetting from './BoundarySetting/BoundarySetting';
 import GreenhouseList from './GreenhouseList';
 import GreenhouseLayout from './GreenhouseLayout';
 import GreenhouseTab2Test from './GreenhouseTab2Test/GreenhouseTab2Test';
+import NotFound from '../../../components/common/NotFound/NotFound';
 
 
 interface GreenhouseRouterProps { }

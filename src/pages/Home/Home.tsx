@@ -1,16 +1,17 @@
 import React, { FC, memo, useContext, useMemo } from 'react';
 import { Link, NavLink, Navigate } from 'react-router-dom';
-import CustomNavbar from '../../components/Navbar/Navbar';
-import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import { useTranslation } from 'react-i18next';
-import PureHomeCard from '../../components/HomeCard/PureHomeCard';
+import useUserInfoStore from '../../state/useUserInfoStore';
+import PureNavbar from '../../components/layouts/PureNavbar';
+import PureHomeCard from '../../components/home/PureHomeCard';
 
 
 interface HomeProps { }
 
 const Home: FC<HomeProps> = () => {
   const { t } = useTranslation();
-
+  console.log('home')
+  const { userInfo} = useUserInfoStore();
   const imgBaseUrl = '/assets/images/module-icon';
   const imgArr = [
     /* 組織溫室氣體 */
@@ -44,7 +45,7 @@ const Home: FC<HomeProps> = () => {
     <div >
       {/* navbar */}
       <div>
-        <CustomNavbar />
+        <PureNavbar />
       </div>
       <div style={{
         display: 'flex',

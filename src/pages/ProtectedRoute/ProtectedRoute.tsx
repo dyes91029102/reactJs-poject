@@ -1,6 +1,5 @@
 import React, { FC, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import TokenService from '../../services/auth/tokenService';
 
 
@@ -13,9 +12,8 @@ type ProtectedRouteProps = {
 }
 
 const ProtectedRoute: FC<ProtectedRouteProps> = (
-  {children,  redirectPath = '/home', isAllowed = true}) => {
-  const { user } = useContext(AuthContext) as AuthContextType;
-  console.log(user)
+  {children,  redirectPath = '/main/home', isAllowed = true}) => {
+    console.log(redirectPath);
   // 無token 直接回登入頁
   if (!TokenService.getAuthToken()) {
     alert('尚未登入');

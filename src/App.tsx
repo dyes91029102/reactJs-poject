@@ -1,14 +1,15 @@
-import React, { FC, Suspense, lazy, useContext, useMemo, useState } from 'react';
 import './scss/all.scss';
 import { BrowserRouter, Routes, Route, RouteObject, createBrowserRouter, RouterProvider, Navigate, useNavigate, Outlet } from 'react-router-dom';
 
 import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
-import NotFound from './components/Common/NotFound/NotFound';
+import NotFound from './components/common/NotFound/NotFound';
+import { FC } from 'react';
+import useUserInfoStore from './state/useUserInfoStore';
 
 /** router 範例 */
 const App: FC<any> = () => {
-  console.log('app render')
+  console.log('app');
   const routers = createBrowserRouter([
     {
       path: '/',

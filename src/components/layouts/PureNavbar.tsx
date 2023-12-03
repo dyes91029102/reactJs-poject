@@ -1,16 +1,16 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
-import TokenService from '../../services/auth/tokenService';
-import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
+import TokenService from '../../services/auth/tokenService';
 import LoginService from '../../services/login/loginService';
+import useUserInfoStore from '../../state/useUserInfoStore';
 
 
-interface CustomNavbarProps { }
+interface PureNavbarProps { }
 
-const CustomNavbar: FC<CustomNavbarProps> = () => {
+const PureNavbar: FC<PureNavbarProps> = React.memo((props) => {
   console.log('customNav');
   const navigate = useNavigate();  
   const { t, i18n } = useTranslation();
@@ -19,13 +19,14 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
     i18n.changeLanguage(lng);
     TokenService.setLanguage(lng);
   };
-  const { setUser } = useContext(AuthContext) as AuthContextType;
   const logoutMutation = useMutation({
     mutationFn: LoginService.logout
   });
   const tokenRevokeMutation = useMutation({
     mutationFn: LoginService.tokenRevoke
   });
+
+  const { setUserInfo}= useUserInfoStore();
   const handleLogout = (e: any) => {
     tokenRevokeMutation.mutateAsync()
       .then(p => {
@@ -36,8 +37,8 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
               if (x.success) {
                 // 清除token
                 TokenService.removeUserInfo();
-                // 清除authContext資料
-                 setUser(null);
+                setUserInfo(null);
+                useUserInfoStore.persist.clearStorage();
                 navigate('/login');
               }
             })
@@ -101,7 +102,7 @@ const CustomNavbar: FC<CustomNavbarProps> = () => {
       </Navbar>
     </div>
 
-  )
-};
+  )}
+);
 
-export default CustomNavbar;
+export default PureNavbar;

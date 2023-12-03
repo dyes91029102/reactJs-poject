@@ -18,14 +18,6 @@ interface AuthContextPropModel {
 export const AuthProvider = ({ children }: AuthContextPropModel) => {
     const token = TokenService.getAuthToken();
 
-    // 沒有token 不可進入
-    // if(token){
-
-    // }else{
-    //     alert('尚未登入');
-    //     return <Navigate to="/login"/>
-    // }
-
     console.log('authProvider')
     const setUser = (userInfo: any) => {
         if (userInfo) {

@@ -1,24 +1,27 @@
-import React, { FC, Suspense, lazy, useContext, useMemo } from 'react';
-import { RouteObject, useRoutes, useNavigate, Navigate } from 'react-router-dom';
-import NotFound from '../../components/Common/NotFound/NotFound';
+import React, { FC, Suspense, lazy, useContext, useEffect, useMemo } from 'react';
+import { RouteObject, useRoutes, useNavigate, Navigate, Routes, Router, Route } from 'react-router-dom';
 import Layout from './Layout';
-import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute';
-import { AuthContext, AuthContextType } from '../../context/AuthProvider';
 import Carbon from './Carbon/Carbon';
 import Greenhouse from './Greenhouse/Greenhouse';
 import Energy from './Energy/Energy';
 import Home from '../Home/Home';
 import { SignalContextProvider } from '../../context/SignalProvider';
 import { SignalR } from '../../utils/signalR';
-// import Greenhouse from './Greenhouse/Greenhouse';
+import useUserInfoStore from '../../state/useUserInfoStore';
+import TokenService from '../../services/auth/tokenService';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import NotFound from '../../components/common/NotFound/NotFound';
+import Login from '../Login/Login';
 
 interface MainProps { }
 
 
 const Main: FC<MainProps> = () => {
-  const { user } = useContext(AuthContext) as AuthContextType;
 
-  const signal = new SignalR("");
+  const { userInfo, setUserInfo } = useUserInfoStore();
+  console.log('main');
+  console.log(userInfo)
+
   // 延遲載入 (目前跟翻譯會互相打架 重新渲染)
   // const Greenhouse = lazy(() => import('./Greenhouse/GreenhouseRouter'));
   // const Carbon = lazy(() => import('./Carbon/Carbon'));
@@ -43,39 +46,15 @@ const Main: FC<MainProps> = () => {
         }, {
           path: 'carbon',
           element:
-            <ProtectedRoute isAllowed={user && user.permission.pages.includes('carbon')}>
-              <Carbon />
-            </ProtectedRoute>,
+            // <ProtectedRoute isAllowed={userInfo && userInfo.permission.pages.includes('carbon')}>
+            <Carbon />,
+          // </ProtectedRoute>
           errorElement: <NotFound />
         }, {
           path: 'energy',
           element: <Energy />,
           errorElement: <NotFound />
         }
-        // {
-        //   path: 'greenhouse/*',
-        //   element: 
-        //     <Suspense fallback={<VisuallLoading />}>
-        //       <Greenhouse />
-        //     </Suspense>,
-        //   errorElement: <NotFound />
-        // }, {
-        //   path: 'carbon',
-        //   element:
-        //     <Suspense fallback={<VisuallLoading />}>
-        //       <ProtectedRoute isAllowed={user && user.permission.pages.includes('carbon')}>
-        //         <Carbon />
-        //       </ProtectedRoute>
-        //     </Suspense>,
-        //   errorElement: <NotFound />
-        // }, {
-        //   path: 'energy',
-        //   element:
-        //     <Suspense fallback={<VisuallLoading />}>
-        //       <Energy />
-        //     </Suspense>,
-        //   errorElement: <NotFound />
-        // }
       ]
     },
     {
@@ -84,11 +63,22 @@ const Main: FC<MainProps> = () => {
     }
   ];
   let elements = useRoutes(routers);
+  
+    //   <Routes>
+    //     <Route path="/" element={
+    //       <ProtectedRoute redirectPath='/home'>
+    //         <Layout />
+    //       </ProtectedRoute>
+    //     }>
+    //       <Route path="/greenhouse/*" element={<Greenhouse />}></Route>
+    //     </Route>
+    //     <Route path="/home" element={<Home />}></Route>
+    //   </Routes>
   return (
     <>
-      <SignalContextProvider hubConnection={signal.hubConnection}>
-        {elements}
-      </SignalContextProvider>
+       {!userInfo ?
+       <Navigate to={'/login'}/>:
+       elements}
     </>
   );
 }

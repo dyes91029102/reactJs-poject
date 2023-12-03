@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter, createBrowserRouter, Outlet, redirect, RouterProvider, useLocation } from 'react-router-dom';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import CustomNavbar from '../../components/Navbar/Navbar';
+import PureNavbar from '../../components/layouts/PureNavbar';
+import Sidebar from '../../components/layouts/Sidebar';
 
 
 
@@ -12,14 +12,14 @@ interface LayoutProps { }
 
 
 const Layout: FC<LayoutProps> = () => {
-
+  console.log('layout')
   const pathName = useLocation();
   return (
 
     <div>
       {/* Narbar */}
       <div>
-        <CustomNavbar/>
+        <PureNavbar/>
       </div>
       <div className='d-flex'>
         {/* 父層不更動的部分 */}
