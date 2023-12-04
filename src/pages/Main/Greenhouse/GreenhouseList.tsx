@@ -32,8 +32,7 @@ const GreenhouseList: FC<any> = () => {
     //     queryFn: ()=> GreenhouseService.getGreenhouseList(searchParam),
     //     refetchOnWindowFocus: false
     // });
-
-    console.log(listData?.data);
+    console.log(listData);
 
     const handOtherPath = (ghgId: string) => {
 

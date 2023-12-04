@@ -1,35 +1,29 @@
+import http from "../context/AxiosProvider";
 import { BaseResponse } from "../models/baseModel";
-import axiosClient from "../services/axiosClient";
 
 export class HttpClient {
 
-    private _httpClient = axiosClient;
-  
     async get<T>(url: string): Promise<BaseResponse<T | any>> {
-        return await this._httpClient.get(url).then((response) => response.data);
+        return await http.get(url);
     }
 
     async post<T>(url: string, param?: any): Promise<BaseResponse<T | any>> {
-        return await this._httpClient
-            .post(url, param)
-            .then((res) => res.data);
+        return await http
+            .post(url, param);
     }
 
     async patch<T>(url: string, param: any): Promise<BaseResponse<T | any>> {
-        return await this._httpClient
-            .patch(url, param)
-            .then((res) => res.data);
+        return await http
+            .patch(url, param);
     }
 
     async put<T>(url: string, param: any): Promise<BaseResponse<T | any>> {
-        return await this._httpClient
-            .put(url, param)
-            .then((res) => res.data);
+        return await http
+            .put(url, param);
     }
 
     async delete<T>(url: string): Promise<BaseResponse<T | any>> {
-        return await this._httpClient
-            .delete(url)
-            .then((res) => res.data);
+        return await http
+            .delete(url);
     }
 }

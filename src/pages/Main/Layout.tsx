@@ -12,7 +12,6 @@ interface LayoutProps { }
 
 
 const Layout: FC<LayoutProps> = () => {
-  console.log('layout')
   const pathName = useLocation();
   return (
 

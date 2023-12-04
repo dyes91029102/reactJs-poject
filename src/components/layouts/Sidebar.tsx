@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 interface SidebarProps { }
 
 const Sidebar: FC<SidebarProps> = () => {
-  console.log('Sidebar');
 
   return (
     <div className="sidebar-sticky pt-3 scroll">

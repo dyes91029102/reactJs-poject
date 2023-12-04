@@ -1,6 +1,6 @@
 const TOKEN_NAME = 'token';
 const REFRESH_TOKEN_NAME = 'refresh_token';
-const USER_INFO = 'user_info';
+const USER_INFO = 'userInfo';
 const ESG_LANG = 'esg_lang';
 const LANGUAGE = 'react_lang';
 

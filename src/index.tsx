@@ -6,6 +6,7 @@ import './i18n/i18n';
 import VisuallLoading from './components/common/VisuallLoading/VisuallLoading';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { AxiosInterceptor } from './context/AxiosProvider';
 // 取得index.html 原點
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,15 +17,17 @@ const queryClient = new QueryClient();
 // 渲染組件
 root.render(
   <>
-  {/* <React.StrictMode>*/}
+    {/* <React.StrictMode>*/}
     {/* Suspense 語言從外部 加載時效果理想 */}
     <Suspense fallback={<VisuallLoading loadText={"Loading..."} />}>
-      <QueryClientProvider client={queryClient}>
-            <App />
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      </QueryClientProvider>
+      <AxiosInterceptor>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </AxiosInterceptor>
     </Suspense>
-  {/* </React.StrictMode> */}
+    {/* </React.StrictMode> */}
   </>
 );
 

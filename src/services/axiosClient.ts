@@ -1,8 +1,10 @@
 import axios from 'axios';
 import TokenService from './auth/tokenService';
 import loginService from './login/loginService';
+import useUserInfoStore from '../state/useUserInfoStore';
 
-// api 基礎設置
+// 暫無使用 (改為Inteceptor Context)
+// api 基礎設置 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL
 });
@@ -45,10 +47,13 @@ axiosClient.interceptors.response.use(
           // 取得refresh token
           const userInfo = TokenService.getUserInfo();
           if (userInfo) {
-            refreshPromise = loginService.tokenRefresh({
-              refreshToken: userInfo.refresh_token,
-              accountId: userInfo.id
-            }).finally(clearPromise);
+            const data = userInfo.state;
+            if(data){
+              refreshPromise = loginService.tokenRefresh({
+                refreshToken: data.refresh_token,
+                accountId: data.id
+              }).finally(clearPromise);
+            }
           }
         }
         const data = await refreshPromise;

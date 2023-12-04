@@ -6,6 +6,7 @@ import Main from './pages/Main/Main';
 import NotFound from './components/common/NotFound/NotFound';
 import { FC } from 'react';
 import useUserInfoStore from './state/useUserInfoStore';
+import SignalContextProvider from './context/SignalProvider';
 
 /** router 範例 */
 const App: FC<any> = () => {
@@ -21,7 +22,10 @@ const App: FC<any> = () => {
     },
     {
       path: '/main/*',
-      element: <Main />
+      element:
+        <SignalContextProvider>
+          <Main />
+        </SignalContextProvider>
     },
     {
       path: '*',

@@ -11,7 +11,6 @@ import useUserInfoStore from '../../state/useUserInfoStore';
 interface PureNavbarProps { }
 
 const PureNavbar: FC<PureNavbarProps> = React.memo((props) => {
-  console.log('customNav');
   const navigate = useNavigate();  
   const { t, i18n } = useTranslation();
   

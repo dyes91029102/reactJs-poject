@@ -4,7 +4,7 @@ import TokenService from '../../services/auth/tokenService';
 
 
 type ProtectedRouteProps = {
-  children: any;
+  children?: React.ReactNode;
   /** 導向頁面 */
   redirectPath?: string;
   /** 是否有該權限 */
@@ -12,8 +12,7 @@ type ProtectedRouteProps = {
 }
 
 const ProtectedRoute: FC<ProtectedRouteProps> = (
-  {children,  redirectPath = '/main/home', isAllowed = true}) => {
-    console.log(redirectPath);
+  { children, redirectPath = '/main/home', isAllowed = true }) => {
   // 無token 直接回登入頁
   if (!TokenService.getAuthToken()) {
     alert('尚未登入');
@@ -25,7 +24,11 @@ const ProtectedRoute: FC<ProtectedRouteProps> = (
     alert('權限不足');
     return <Navigate to={redirectPath} replace />
   }
-  return children;
+  return (
+    <>
+      {children}
+    </>
+  );
 
 }
 
