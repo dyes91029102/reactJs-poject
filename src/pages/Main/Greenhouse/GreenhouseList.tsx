@@ -26,19 +26,8 @@ const GreenhouseList: FC<any> = () => {
     const { isError, isLoading, data: listData } =
         GreenhouseQuery.useGetList(searchParam);
 
-
-    // const { isError:isError2, isLoading:isLoading2, data: listData2 } = useQuery({
-    //     queryKey: [GreenhouseKeys.list],
-    //     queryFn: ()=> GreenhouseService.getGreenhouseList(searchParam),
-    //     refetchOnWindowFocus: false
-    // });
-    console.log(listData);
-
     const handOtherPath = (ghgId: string) => {
-
-
         navigate(`/main/greenhouse/${ghgId}/boundarysetting/list`);
-
     }
 
     const locationObj = useLocation();

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter, createBrowserRouter, Outlet, redirect, RouterProvider, useLocation } from 'react-router-dom';
-import PureNavbar from '../../components/layouts/PureNavbar';
+import Navbar from '../../components/layouts/Navbar';
 import Sidebar from '../../components/layouts/Sidebar';
 
 
@@ -18,7 +18,7 @@ const Layout: FC<LayoutProps> = () => {
     <div>
       {/* Narbar */}
       <div>
-        <PureNavbar/>
+        <Navbar/>
       </div>
       <div className='d-flex'>
         {/* 父層不更動的部分 */}

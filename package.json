@@ -44,14 +44,14 @@
     "zustand": "^4.4.7"
   },
   "scripts": {
-    "start": "set PORT=3001&&react-scripts start",
-    "start:dev": "set PORT=3001&&env-cmd -f .env.development react-scripts start",
-    "start:prod": "set PORT=3001&&env-cmd -f .env.production react-scripts start",
-    "build": "react-scripts build",
-    "build:dev": "env-cmd -f .env.development react-scripts build",
-    "build:prod": "env-cmd -f .env.production react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "set PORT=3001&&react-app-rewired start",
+    "start:dev": "set PORT=3001&&env-cmd -f .env.development react-app-rewired start start",
+    "start:prod": "set PORT=3001&&env-cmd -f .env.production react-app-rewired start start",
+    "build": "react-app-rewired start build",
+    "build:dev": "env-cmd -f .env.development react-app-rewired start build",
+    "build:prod": "env-cmd -f .env.production react-app-rewired start build",
+    "test": "react-app-rewired start test",
+    "eject": "react-app-rewired start eject",
     "g-c": "npx generate-react-cli component"
   },
   "eslintConfig": {
@@ -73,7 +73,6 @@
     ]
   },
   "devDependencies": {
-    "react-refresh": "^0.14.0",
-    "react-refresh-webpack-plugin": "^0.1.0"
+    "react-app-rewired": "^2.2.1"
   }
 }

@@ -2,7 +2,7 @@ import React, { FC, memo, useContext, useMemo } from 'react';
 import { Link, NavLink, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useUserInfoStore from '../../state/useUserInfoStore';
-import PureNavbar from '../../components/layouts/PureNavbar';
+import Navbar from '../../components/layouts/Navbar';
 import PureHomeCard from '../../components/home/PureHomeCard';
 
 
@@ -45,7 +45,7 @@ const Home: FC<HomeProps> = () => {
     <div >
       {/* navbar */}
       <div>
-        <PureNavbar />
+        <Navbar />
       </div>
       <div style={{
         display: 'flex',

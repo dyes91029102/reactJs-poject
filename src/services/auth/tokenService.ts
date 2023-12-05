@@ -42,11 +42,14 @@ const setUserInfo = (data: any) => {
 // 從 localStorage 讀取 refreshToken
 const getUserInfo = (): any => {
     let info = localStorage.getItem(StorageName.USER_INFO);
-    let data = {};
-    if (info) {
-        data = JSON.parse(info);
+    
+    if (info ) {
+       const data = JSON.parse(info);
+       if(data.state){
+         return data.state.userInfo;
+       }
     }
-    return data;
+    return null;
 };
 
 /** 清除使用者資訊 */

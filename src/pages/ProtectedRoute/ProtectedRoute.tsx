@@ -1,6 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import TokenService from '../../services/auth/tokenService';
+import useUserInfoStore from '../../state/useUserInfoStore';
 
 
 type ProtectedRouteProps = {
@@ -13,8 +14,9 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute: FC<ProtectedRouteProps> = (
   { children, redirectPath = '/main/home', isAllowed = true }) => {
+  const token = useUserInfoStore(state => state.userInfo?.access_token);
   // 無token 直接回登入頁
-  if (!TokenService.getAuthToken()) {
+  if (!token) {
     alert('尚未登入');
     return <Navigate to='/login' replace />
   }

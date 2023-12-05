@@ -117,37 +117,3 @@
 
 
 
-
-// 按鈕測試
-.loginBox {
-    background-color: #2968c4;
-    color: #fff;
-    border-radius: 3px;
-    margin-top: 19px;
-    padding: 12px 30px;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    width: 100%;
-
-    .loginBox {
-        border-color: black;
-        border-radius: 0.25rem;
-        background-color: #007bff;
-        height: 56px;
-
-        .login-link {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-    }
-
-    .loginText {
-        font-size: 15px;
-    }
-
-    &:hover {
-        background-color: #007bff;
-    }
-}

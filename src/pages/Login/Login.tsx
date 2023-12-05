@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 // import "../../scss/pages/login.scss";
 import TokenService from "../../services/auth/tokenService";
 import { useTranslation } from "react-i18next";
@@ -26,6 +26,7 @@ const Login: FC<LoginProps> = () => {
   // 語系
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
+  const { userInfo, setUserInfo } = useUserInfoStore();
   // 語系清單  
   const langArr: OptionModel[] = LocaleArr;
   // const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,12 +34,12 @@ const Login: FC<LoginProps> = () => {
   //   // trigger("account");
   // };
 
+
   // api 呼叫
   const loginMutation = useMutation({
     mutationFn: LoginService.login,
   });
 
-  const { setUserInfo} = useUserInfoStore();
   // 登入
   const onSubmit: SubmitHandler<IFormLogin> = (data) => {
     console.log(data);
@@ -48,9 +49,6 @@ const Login: FC<LoginProps> = () => {
       password: data.password
     }).then(x => {
       if (x.success) {
-        // 成功的話就把 token 存到 localStorage
-        TokenService.setAuthToken(x.data.access_token);
-        TokenService.setRefreshToken(x.data.refresh_token);
         setUserInfo(x.data);
         navigate("/main/home");
       } else {
@@ -60,6 +58,7 @@ const Login: FC<LoginProps> = () => {
     })
 
   };
+
 
   const onError: SubmitErrorHandler<IFormLogin> = (errors) => {
     console.log(errors);
@@ -128,85 +127,89 @@ const Login: FC<LoginProps> = () => {
     });
     return () => subscription.unsubscribe();
   }, [watch]);
-
   return (
-    <div className={styles['login-box']}>
-      <div className="loginbg"
-        style={{
-          "backgroundImage": `url("assets/images/login_bg.png")`
-        }}>
-        <form className="form-signin" onSubmit={handleSubmit(onSubmit, onError)}>
-          <div className="text-center mb-4">
-            <img alt="login logo" className="mb-4"
-              src="/assets/images/login_logo.svg"
-              style={{ width: "280px", height: "75px" }}
-            />
-          </div>
-
-          <div className="form-label-group">
-            {/* 使用controller 將非可控制的變為可控以利跟其他UI元件方便串接 */}
-            <Controller
-              name="account"
-              control={control}
-              render={({ field: {onChange, value} }) => (
-                <input type="text"
-                  id="inputEmail"
-                  className="form-control"
-                  value={value}
-                  onChange={onChange}
+    <>
+      {userInfo ? <Navigate to='/main/home' /> :
+        <div className={styles['login-box']}>
+          <div className="loginbg"
+            style={{
+              "backgroundImage": `url("assets/images/login_bg.png")`
+            }}>
+            <form className="form-signin" onSubmit={handleSubmit(onSubmit, onError)}>
+              <div className="text-center mb-4">
+                <img alt="login logo" className="mb-4"
+                  src="/assets/images/login_logo.svg"
+                  style={{ width: "280px", height: "75px" }}
                 />
-              )
-              }
-            />
+              </div>
 
-            <label htmlFor="inputEmail">Email</label>
-            {
-              errors.account && (
-                <div className="invalid">
-                  {errors.account?.message}
-                </div>
-              )
-            }
-          </div>
+              <div className="form-label-group">
+                {/* 使用controller 將非可控制的變為可控以利跟其他UI元件方便串接 */}
+                <Controller
+                  name="account"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <input type="text"
+                      id="inputEmail"
+                      className="form-control"
+                      value={value}
+                      onChange={onChange}
+                    />
+                  )
+                  }
+                />
 
-          <div className="form-label-group">
-            <input type="password" id="inputPassword"
-              className="form-control"
-              placeholder="密碼"
-              {...register("password")}
-            />
-            <label htmlFor="inputPassword">
-              {t("PASSWORD")}
-            </label>
-            {
-              errors.password && (
-                <div className="invalid">
-                  {errors.password?.message}
-                </div>
-              )
-            }
-          </div>
-          <div className="form-label-group">
-            <button
-              className="login-link">
-              {t("LOGIN")}
-              {loginMutation.isIdle ? "" : <VisuallLoading />}
-            </button>
-          </div>
-        </form>
+                <label htmlFor="inputEmail">Email</label>
+                {
+                  errors.account && (
+                    <div className="invalid">
+                      {errors.account?.message}
+                    </div>
+                  )
+                }
+              </div>
 
-        {/*  語系 */}
-        <div>
-          <select defaultValue={lang} onChange={changeLanguage}>
-            {
-              langArr.map(p => {
-                return <option key={p.id} value={p.id}>{p.text}</option>
-              })
-            }
-          </select>
+              <div className="form-label-group">
+                <input type="password" id="inputPassword"
+                  className="form-control"
+                  placeholder="密碼"
+                  {...register("password")}
+                />
+                <label htmlFor="inputPassword">
+                  {t("PASSWORD")}
+                </label>
+                {
+                  errors.password && (
+                    <div className="invalid">
+                      {errors.password?.message}
+                    </div>
+                  )
+                }
+              </div>
+              <div className="form-label-group">
+                <button
+                  className="login-link">
+                  {t("LOGIN")}
+                  {loginMutation.isIdle ? "" : <VisuallLoading />}
+                </button>
+              </div>
+            </form>
+
+            {/*  語系 */}
+            <div>
+              <select defaultValue={lang} onChange={changeLanguage}>
+                {
+                  langArr.map(p => {
+                    return <option key={p.id} value={p.id}>{p.text}</option>
+                  })
+                }
+              </select>
+            </div>
+          </div >
         </div>
-      </div >
-    </div>
+      }
+    </>
+
   );
 
 }

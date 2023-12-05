@@ -16,7 +16,6 @@ export default function useSignalR() {
         if (!hubConnection) {
             initInstance();
         }
-
     });
 
     const initInstance = () => {

@@ -1,10 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useEffect } from "react";
 import TokenService from "../services/auth/tokenService";
 import loginService from "../services/login/loginService";
 import { BaseResponse } from "../models/baseModel";
 import { useNavigate } from "react-router-dom";
+import useUserInfoStore from "../state/useUserInfoStore";
 
 // axios instance
 const http = axios.create({
@@ -16,10 +17,12 @@ interface AxiosInterceptorProps {
 }
 
 const AxiosInterceptor = (props: AxiosInterceptorProps) => {
+    const userInfo = useUserInfoStore(state => state.userInfo);
+    // 畫面渲染前先跑
     useLayoutEffect(() => {
         console.log("interceptor");
         const reqInterceptor = (config: any) => {
-            const token = TokenService.getAuthToken();
+            const token = userInfo?.access_token;
             // 無token 就用空的
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
@@ -40,6 +43,7 @@ const AxiosInterceptor = (props: AxiosInterceptorProps) => {
         const clearPromise = () => {
             refreshPromise = null;
         }
+
         const errInterceptor = async (error: any) => {
             console.log("errInterceptor", error);
             console.log(error.response.status)
@@ -52,16 +56,12 @@ const AxiosInterceptor = (props: AxiosInterceptorProps) => {
 
                     if (!refreshPromise) {
                         // 取得refresh token
-                        const info = TokenService.getUserInfo();
-                        if (info) {
-                            const data = info.state.userInfo;
-                            console.log(data)
-                            if (data) {
-                                refreshPromise = loginService.tokenRefresh({
-                                    refreshToken: data.refresh_token,
-                                    accountId: data.id
-                                }).finally(clearPromise);
-                            }
+                        if (userInfo?.refresh_token) {
+                            refreshPromise = loginService.tokenRefresh({
+                                refreshToken: userInfo?.refresh_token,
+                                accountId: userInfo?.id
+                            }).finally(clearPromise);
+
                         }
                     }
                     const data = await refreshPromise;
@@ -105,7 +105,7 @@ const AxiosInterceptor = (props: AxiosInterceptorProps) => {
             http.interceptors.request.eject(interceptorReq);
             http.interceptors.response.eject(interceptorRes);
         }
-    }, []);
+    }, [userInfo]);
 
     return (
         <>{props.children}</>
