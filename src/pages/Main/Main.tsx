@@ -2,12 +2,13 @@ import React, { FC, Suspense, lazy, useContext, useEffect, useMemo } from 'react
 import { RouteObject, useRoutes, useNavigate, Navigate, Routes, Router, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Carbon from './Carbon/Carbon';
-import Greenhouse from './Greenhouse/Greenhouse';
+// import Greenhouse from './Greenhouse/Greenhouse';
 import Energy from './Energy/Energy';
 import Home from '../Home/Home';
 import useUserInfoStore from '../../state/useUserInfoStore';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import NotFound from '../../components/common/NotFound/NotFound';
+import VisuallLoading from '../../components/common/VisuallLoading/VisuallLoading';
 
 interface MainProps { }
 
@@ -18,7 +19,7 @@ const Main: FC<MainProps> = () => {
   console.log('main');
 
   // 延遲載入 (目前跟翻譯會互相打架 重新渲染)
-  // const Greenhouse = lazy(() => import('./Greenhouse/GreenhouseRouter'));
+  const Greenhouse = lazy(() => import('./Greenhouse/Greenhouse'));
   // const Carbon = lazy(() => import('./Carbon/Carbon'));
   // const Energy = lazy(() => import('./Energy/Energy'));
   // 創建router
@@ -36,7 +37,10 @@ const Main: FC<MainProps> = () => {
         },
         {
           path: 'greenhouse/*',
-          element: <Greenhouse />,
+          element:
+            <Suspense fallback={<VisuallLoading />}>
+              <Greenhouse />
+            </Suspense>,
           errorElement: <NotFound />
         }, {
           path: 'carbon',

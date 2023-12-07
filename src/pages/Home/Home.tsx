@@ -16,9 +16,9 @@ const Home: FC<HomeProps> = () => {
   const imgArr = [
     /* 組織溫室氣體 */
     {
-      title: t('GREENHOUSE'),
+      title: t("GREENHOUSE"),
       englishTitle: 'GHG Emission',
-      router: 'greenhouse',
+      router: 'greenhouse/list',
       colorIndex: 3,
       color: '249, 165, 23',
       opacity: 0.2,
@@ -28,7 +28,7 @@ const Home: FC<HomeProps> = () => {
     },
     /* 產品碳足跡 */
     {
-      title: t('CARBON'),
+      title: t("CARBON"),
       englishTitle: 'Carbon Footprint',
       router: 'carbon',
       colorIndex: 4,
